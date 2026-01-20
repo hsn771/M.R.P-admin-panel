@@ -1,0 +1,145 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\MemberRegistration;
+use Illuminate\Http\Request;
+
+class MemberRegistrationController extends Controller
+{
+    public function index()
+    {
+        $memberRegistrations = MemberRegistration::latest()->get();
+        return view('admin.member_registrations.index', compact('memberRegistrations'));
+    }
+
+    public function create()
+    {
+        return view('admin.member_registrations.create');
+    }
+
+    public function store(Request $request)
+    {
+        $input = $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'father_name' => 'required|string|max:255',
+            'mother_name' => 'required|string|max:255',
+            'family_member_num' => 'required|integer',
+            'nid_no' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'religion' => 'required|string|max:255',
+            'nationality' => 'required|string|max:255',
+            'merital_status' => 'required|string|max:255',
+            'village_permanent' => 'required|string|max:255',
+            'post_name_permanent' => 'required|string|max:255',
+            'thana_upozilla_permanent' => 'required|string|max:255',
+            'block_permanent' => 'required|string|max:255',
+            'district_permanent' => 'required|string|max:255',
+            'post_code_permanent' => 'required|string|max:255',
+            'road_present' => 'required|string|max:255',
+            'post_name_present' => 'required|string|max:255',
+            'thana_upozilla_present' => 'required|string|max:255',
+            'block_present' => 'required|string|max:255',
+            'district_present' => 'required|string|max:255',
+            'post_code_present' => 'required|string|max:255',
+            'sponsor_name' => 'required|string|max:255',
+            'sponsor_phone' => 'required|string|max:255',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('storage/member-registrations');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+            $input['image'] = 'member-registrations/' . $imageName;
+        }
+
+        MemberRegistration::create($input);
+
+        return redirect()->route('admin.member-registrations.index')
+            ->with('success', 'Member Registration created successfully.');
+    }
+
+    public function show(MemberRegistration $memberRegistration)
+    {
+        return view('admin.member_registrations.show', compact('memberRegistration'));
+    }
+
+    public function edit(MemberRegistration $memberRegistration)
+    {
+        return view('admin.member_registrations.edit', compact('memberRegistration'));
+    }
+
+    public function update(Request $request, MemberRegistration $memberRegistration)
+    {
+        $input = $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'father_name' => 'required|string|max:255',
+            'mother_name' => 'required|string|max:255',
+            'family_member_num' => 'required|integer',
+            'nid_no' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'religion' => 'required|string|max:255',
+            'nationality' => 'required|string|max:255',
+            'merital_status' => 'required|string|max:255',
+            'village_permanent' => 'required|string|max:255',
+            'post_name_permanent' => 'required|string|max:255',
+            'thana_upozilla_permanent' => 'required|string|max:255',
+            'block_permanent' => 'required|string|max:255',
+            'district_permanent' => 'required|string|max:255',
+            'post_code_permanent' => 'required|string|max:255',
+            'road_present' => 'required|string|max:255',
+            'post_name_present' => 'required|string|max:255',
+            'thana_upozilla_present' => 'required|string|max:255',
+            'block_present' => 'required|string|max:255',
+            'district_present' => 'required|string|max:255',
+            'post_code_present' => 'required|string|max:255',
+            'sponsor_name' => 'required|string|max:255',
+            'sponsor_phone' => 'required|string|max:255',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($memberRegistration->image && file_exists(public_path('storage/' . $memberRegistration->image))) {
+                unlink(public_path('storage/' . $memberRegistration->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('storage/member-registrations');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+            $input['image'] = 'member-registrations/' . $imageName;
+        } else {
+            unset($input['image']);
+        }
+
+        $memberRegistration->update($input);
+
+        return redirect()->route('admin.member-registrations.index')
+            ->with('success', 'Member Registration updated successfully');
+    }
+
+    public function destroy(MemberRegistration $memberRegistration)
+    {
+        if ($memberRegistration->image && file_exists(public_path('storage/' . $memberRegistration->image))) {
+            unlink(public_path('storage/' . $memberRegistration->image));
+        }
+        $memberRegistration->delete();
+
+        return redirect()->route('admin.member-registrations.index')
+            ->with('success', 'Member Registration deleted successfully');
+    }
+}
