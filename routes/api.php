@@ -46,6 +46,7 @@ Route::post('/verify-otp', [RequestSubmissionController::class, 'verifyOTP']);
 Route::post('/member-registration', [MemberRegistrationController::class, 'store']);
 Route::post('/agent-registration', [\App\Http\Controllers\Api\AgentRegistrationController::class, 'store']);
 Route::post('/sub-agent-registration', [\App\Http\Controllers\Api\SubAgentRegistrationController::class, 'store']);
+Route::post('/contact', [\App\Http\Controllers\Api\ContactController::class, 'store']);
 
 // Protected API routes
 Route::middleware('auth:api')->group(function (): void {

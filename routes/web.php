@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\MissionController as AdminMissionController;
 use App\Http\Controllers\Admin\MemberRegistrationController as AdminMemberRegistrationController;
 use App\Http\Controllers\Admin\AgentRegistrationController as AdminAgentRegistrationController;
 use App\Http\Controllers\Admin\SubAgentRegistrationController as AdminSubAgentRegistrationController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -100,6 +101,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Sub Agent Registration management
     Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
+
+    // Contact management
+    Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
 });
 
 // Authenticated user profile
