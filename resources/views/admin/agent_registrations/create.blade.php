@@ -24,7 +24,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.agent-registrations.store') }}" method="POST">
+        <form action="{{ route('admin.agent-registrations.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
                 <div>
@@ -103,6 +103,63 @@
                     you want to be an agent?)</label>
                 <textarea name="description" required rows="4"
                     style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">{{ old('description') }}</textarea>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Birth
+                        Certificate</label>
+                    <input type="file" name="birth_certificate"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">NID
+                        File</label>
+                    <input type="file" name="nid_file"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Photo
+                        Upload (Max 2)</label>
+                    <input type="file" name="photo_up[]" multiple max="2"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Chairman
+                        Certificate</label>
+                    <input type="file" name="chairman_certificate"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Husband's
+                        Info</label>
+                    <input type="file" name="husbands_information"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Considerable
+                        Person Sign</label>
+                    <input type="file" name="considerable_person_sign"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Bank
+                        Check</label>
+                    <input type="file" name="bank_check"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Trade
+                        License</label>
+                    <input type="file" name="trade_license"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Digital
+                        Sign</label>
+                    <input type="file" name="digital_sign"
+                        style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
+                </div>
             </div>
 
             <div style="display:flex; justify-content:flex-end;">

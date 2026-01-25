@@ -14,6 +14,8 @@ class AgentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $validator = Validator::make($request->all(), [
             'full_name' => 'required|string|max:255',
             'mobile_no' => 'required|string|max:255',
@@ -25,6 +27,16 @@ class AgentRegistrationController extends Controller
             'district' => 'required|string|max:255',
             'nid_no' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'birth_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'nid_file' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'photo_up' => 'nullable|array|max:2',
+            'photo_up.*' => 'file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'chairman_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'husbands_information' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'considerable_person_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'bank_check' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'trade_license' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:4048',
         ]);
 
         if ($validator->fails()) {
@@ -35,7 +47,54 @@ class AgentRegistrationController extends Controller
             ], 422);
         }
 
-        $registration = AgentRegistration::create($request->all());
+        // Initialize data with non-file fields
+        $data = $request->except([
+            'birth_certificate',
+            'nid_file',
+            'photo_up',
+            'chairman_certificate',
+            'husbands_information',
+            'considerable_person_sign',
+            'bank_check',
+            'trade_license',
+            'digital_sign'
+        ]);
+
+        // Handle single file uploads
+        $singleFiles = [
+            'birth_certificate',
+            'nid_file',
+            'chairman_certificate',
+            'husbands_information',
+            'considerable_person_sign',
+            'bank_check',
+            'trade_license',
+            'digital_sign',
+        ];
+
+        foreach ($singleFiles as $field) {
+            if ($request->hasFile($field)) {
+                $data[$field] = $request->file($field)->store('agent_registrations', 'public');
+            }
+        }
+
+        // Handle multiple photo uploads
+        if ($request->hasFile('photo_up')) {
+            $photos = [];
+            $files = $request->file('photo_up');
+
+            // Ensure we're dealing with an array of files
+            if (!is_array($files)) {
+                $files = [$files];
+            }
+
+            foreach ($files as $file) {
+                $photos[] = $file->store('agent_registrations', 'public');
+            }
+            $data['photo_up'] = $photos;
+        }
+
+        $registration = AgentRegistration::create($data);
 
         return response()->json([
             'success' => true,

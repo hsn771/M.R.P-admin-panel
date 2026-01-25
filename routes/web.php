@@ -98,6 +98,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Agent Registration management
     Route::resource('agent-registrations', AdminAgentRegistrationController::class);
+    Route::get('agent-registrations/file/{filename}', [AdminAgentRegistrationController::class, 'viewFile'])->name('agent-registrations.view-file');
 
     // Sub Agent Registration management
     Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
