@@ -158,6 +158,10 @@ class AgentRegistrationController extends Controller
             abort(404);
         }
 
+        if (request()->has('download')) {
+            return response()->download($path);
+        }
+
         return response()->file($path);
     }
 

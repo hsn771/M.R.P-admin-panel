@@ -166,6 +166,16 @@
                     <input type="text" name="sponsor_phone" class="form-control" required
                         value="{{ old('sponsor_phone', $memberRegistration->sponsor_phone) }}">
                 </div>
+                <div>
+                    <label style="display:block; margin-bottom:0.25rem;">Digital Sign</label>
+                    <input type="file" name="digital_sign" class="form-control">
+                    @if($memberRegistration->digital_sign)
+                        <div style="margin-top:0.5rem;">
+                            <a href="{{ asset('storage/' . $memberRegistration->digital_sign) }}" target="_blank"
+                                style="font-size:0.8rem; color:#2563eb;">View Existing Digital Sign</a>
+                        </div>
+                    @endif
+                </div>
             </div>
 
             <div style="text-align:right;">

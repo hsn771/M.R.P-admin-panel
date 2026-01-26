@@ -39,6 +39,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
         ]);
 
         if ($validator->fails()) {
@@ -49,7 +50,7 @@ class MemberRegistrationController extends Controller
             ], 422);
         }
 
-        $input = $request->all();
+        $input = $request->except(['image', 'digital_sign']);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -62,6 +63,10 @@ class MemberRegistrationController extends Controller
 
             $image->move($destinationPath, $imageName);
             $input['image'] = 'member-registrations/' . $imageName;
+        }
+
+        if ($request->hasFile('digital_sign')) {
+            $input['digital_sign'] = $request->file('digital_sign')->store('member-registrations', 'public');
         }
 
         $registration = MemberRegistration::create($input);

@@ -21,7 +21,7 @@ class SubAgentRegistrationController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->validate([
+        $request->validate([
             'full_name' => 'required|string|max:255',
             'mobile_no' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -29,7 +29,44 @@ class SubAgentRegistrationController extends Controller
             'district' => 'required|string|max:255',
             'nid_no' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'birth_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'nid_file' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'photo_up' => 'nullable|array|max:2',
+            'photo_up.*' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'chairman_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'husbands_information' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'considerable_person_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'bank_check' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'trade_license' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
+
+        $input = $request->all();
+
+        $fileFields = [
+            'birth_certificate',
+            'nid_file',
+            'chairman_certificate',
+            'husbands_information',
+            'considerable_person_sign',
+            'bank_check',
+            'trade_license',
+            'digital_sign',
+        ];
+
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                $input[$field] = $request->file($field)->store('sub_agent_registrations', 'public');
+            }
+        }
+
+        if ($request->hasFile('photo_up')) {
+            $photos = [];
+            foreach ($request->file('photo_up') as $file) {
+                $photos[] = $file->store('sub_agent_registrations', 'public');
+            }
+            $input['photo_up'] = $photos;
+        }
 
         SubAgentRegistration::create($input);
 
@@ -49,7 +86,7 @@ class SubAgentRegistrationController extends Controller
 
     public function update(Request $request, SubAgentRegistration $subAgentRegistration)
     {
-        $input = $request->validate([
+        $request->validate([
             'full_name' => 'required|string|max:255',
             'mobile_no' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -57,12 +94,68 @@ class SubAgentRegistrationController extends Controller
             'district' => 'required|string|max:255',
             'nid_no' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'birth_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'nid_file' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'photo_up' => 'nullable|array|max:2',
+            'photo_up.*' => 'file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'chairman_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'husbands_information' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'considerable_person_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'bank_check' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'trade_license' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:4048',
         ]);
+
+        $input = $request->all();
+
+        $fileFields = [
+            'birth_certificate',
+            'nid_file',
+            'chairman_certificate',
+            'husbands_information',
+            'considerable_person_sign',
+            'bank_check',
+            'trade_license',
+            'digital_sign',
+        ];
+
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                $input[$field] = $request->file($field)->store('sub_agent_registrations', 'public');
+            } else {
+                unset($input[$field]);
+            }
+        }
+
+        if ($request->hasFile('photo_up')) {
+            $photos = [];
+            foreach ($request->file('photo_up') as $file) {
+                $photos[] = $file->store('sub_agent_registrations', 'public');
+            }
+            $input['photo_up'] = $photos;
+        } else {
+            unset($input['photo_up']);
+        }
 
         $subAgentRegistration->update($input);
 
         return redirect()->route('admin.sub-agent-registrations.index')
             ->with('success', 'Sub Agent Registration updated successfully');
+    }
+
+    public function viewFile($filename)
+    {
+        $path = storage_path('app/public/sub_agent_registrations/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        if (request()->has('download')) {
+            return response()->download($path);
+        }
+
+        return response()->file($path);
     }
 
     public function destroy(SubAgentRegistration $subAgentRegistration)

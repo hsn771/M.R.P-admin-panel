@@ -149,6 +149,10 @@
                     <input type="text" name="sponsor_phone" class="form-control" required
                         value="{{ old('sponsor_phone') }}">
                 </div>
+                <div>
+                    <label style="display:block; margin-bottom:0.25rem;">Digital Sign</label>
+                    <input type="file" name="digital_sign" class="form-control">
+                </div>
             </div>
 
             <div style="text-align:right;">

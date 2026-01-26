@@ -95,100 +95,83 @@
         <div style="margin-bottom:1.5rem;">
             <label
                 style="display:block; font-size:0.75rem; color:#6b7280; text-transform:uppercase; font-weight:600; margin-bottom:1rem;">Attachments</label>
-            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1rem;">
 
-                @if($agentRegistration->photo_up)
-                    @foreach(is_array($agentRegistration->photo_up) ? $agentRegistration->photo_up : [$agentRegistration->photo_up] as $photo)
-                        <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                            <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Photo Upload</div>
-                            <img src="{{ route('admin.agent-registrations.view-file', ['filename' => basename($photo)]) }}"
-                                style="width:100%; height:100px; object-fit:contain; margin-bottom:0.5rem; border-radius:0.25rem; background:#f3f4f6;">
-                            <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($photo)]) }}"
-                                target="_blank" class="btn btn-sm btn-outline"
-                                style="width:100%; text-align:center; display:block;">View Full</a>
+            @php
+                $attachmentFields = [
+                    ['label' => 'Photo / PDF', 'field' => 'photo_up', 'multiple' => true],
+                    ['label' => 'Digital Sign', 'field' => 'digital_sign', 'multiple' => false],
+                    ['label' => 'Considerable Person Sign', 'field' => 'considerable_person_sign', 'multiple' => false],
+                    ['label' => 'NID File', 'field' => 'nid_file', 'multiple' => false],
+                    ['label' => 'Husband\'s Info', 'field' => 'husbands_information', 'multiple' => false],
+                    ['label' => 'Bank Check', 'field' => 'bank_check', 'multiple' => false],
+                    ['label' => 'Birth Certificate', 'field' => 'birth_certificate', 'multiple' => false],
+                    ['label' => 'Chairman Certificate', 'field' => 'chairman_certificate', 'multiple' => false],
+                    ['label' => 'Trade License', 'field' => 'trade_license', 'multiple' => false],
+                ];
+            @endphp
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap:1rem;">
+                @foreach($attachmentFields as $item)
+                    @php
+                        $files = $item['multiple']
+                            ? ($agentRegistration->{$item['field']} ?? [])
+                            : ($agentRegistration->{$item['field']} ? [$agentRegistration->{$item['field']}] : []);
+                    @endphp
+
+                    @foreach($files as $file)
+                        @php
+                            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                            $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
+                            $isPdf = $ext === 'pdf';
+                        @endphp
+                        <div
+                            style="border:1px solid #e5e7eb; padding:0.75rem; border-radius:0.5rem; background:#fff; display:flex; flex-direction:column; justify-content:space-between;">
+                            <div>
+                                <div
+                                    style="font-size:0.75rem; color:#6b7280; font-weight:600; margin-bottom:0.5rem; text-transform:uppercase;">
+                                    {{ $item['label'] }}</div>
+
+                                @if($isImage)
+                                    <div
+                                        style="width:100%; height:120px; background:#f9fafb; border-radius:0.375rem; overflow:hidden; border:1px solid #f3f4f6; margin-bottom:0.75rem; display:flex; align-items:center; justify-content:center;">
+                                        <img src="{{ route('admin.agent-registrations.view-file', ['filename' => basename($file)]) }}"
+                                            style="max-width:100%; max-height:100%; object-fit:contain;">
+                                    </div>
+                                @elseif($isPdf)
+                                    <div
+                                        style="width:100%; height:120px; background:#fff1f2; border-radius:0.375rem; border:1px solid #fecaca; margin-bottom:0.75rem; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#dc2626; gap:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="width:32px; height:32px;" viewBox="0 0 20 20"
+                                            fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span style="font-size:0.75rem; font-weight:700;">PDF DOCUMENT</span>
+                                    </div>
+                                @else
+                                    <div
+                                        style="width:100%; height:120px; background:#f9fafb; border-radius:0.375rem; border:1px solid #f3f4f6; margin-bottom:0.75rem; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#6b7280; gap:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="width:32px; height:32px;" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                        <span style="font-size:0.75rem; font-weight:500;">{{ strtoupper($ext) }} DOCUMENT</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; margin-top: auto;">
+                                <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($file)]) }}"
+                                    target="_blank" class="btn btn-sm btn-outline"
+                                    style="width:100%; text-align:center; padding: 0.4rem 0; font-size: 0.75rem;">View</a>
+                                <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($file), 'download' => 1]) }}"
+                                    class="btn btn-sm btn-primary"
+                                    style="width:100%; text-align:center; padding: 0.4rem 0; font-size: 0.75rem;">Download</a>
+                            </div>
                         </div>
                     @endforeach
-                @endif
-
-                @if($agentRegistration->digital_sign)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Digital Sign</div>
-                        <img src="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->digital_sign)]) }}"
-                            style="width:100%; height:100px; object-fit:contain; margin-bottom:0.5rem; border-radius:0.25rem; background:#f3f4f6;">
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->digital_sign)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View Full</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->considerable_person_sign)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Considerable Person Sign</div>
-                        <img src="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->considerable_person_sign)]) }}"
-                            style="width:100%; height:100px; object-fit:contain; margin-bottom:0.5rem; border-radius:0.25rem; background:#f3f4f6;">
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->considerable_person_sign)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View Full</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->nid_file)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">NID File</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->nid_file)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View Document</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->husbands_information)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Husband's Info</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->husbands_information)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View Document</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->bank_check)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Bank Check</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->bank_check)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View Document</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->birth_certificate)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Birth Certificate</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->birth_certificate)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View
-                            Document</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->chairman_certificate)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Chairman Certificate</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->chairman_certificate)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View
-                            Document</a>
-                    </div>
-                @endif
-
-                @if($agentRegistration->trade_license)
-                    <div style="border:1px solid #e5e7eb; padding:0.5rem; border-radius:0.375rem;">
-                        <div style="font-size:0.75rem; color:#6b7280; margin-bottom:0.25rem;">Trade License</div>
-                        <a href="{{ route('admin.agent-registrations.view-file', ['filename' => basename($agentRegistration->trade_license)]) }}"
-                            target="_blank" class="btn btn-sm btn-outline"
-                            style="width:100%; text-align:center; display:block;">View
-                            Document</a>
-                    </div>
-                @endif
-
+                @endforeach
             </div>
         </div>
         <label

@@ -95,6 +95,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Member Registration management
     Route::resource('member-registrations', AdminMemberRegistrationController::class);
+    Route::get('member-registrations/file/{filename}', [AdminMemberRegistrationController::class, 'viewFile'])->name('member-registrations.view-file');
 
     // Agent Registration management
     Route::resource('agent-registrations', AdminAgentRegistrationController::class);
@@ -102,6 +103,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Sub Agent Registration management
     Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
+    Route::get('sub-agent-registrations/file/{filename}', [AdminSubAgentRegistrationController::class, 'viewFile'])->name('sub-agent-registrations.view-file');
 
     // Contact management
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);

@@ -34,5 +34,6 @@ class MemberRegistration extends Model
         'post_code_present',
         'sponsor_name',
         'sponsor_phone',
+        'digital_sign',
     ];
 }

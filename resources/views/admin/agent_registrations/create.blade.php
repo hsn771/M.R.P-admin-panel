@@ -119,8 +119,8 @@
                         style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
                 </div>
                 <div>
-                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Photo
-                        Upload (Max 2)</label>
+                    <label style="display:block; font-size:0.85rem; font-weight:500; margin-bottom:0.25rem;">Photo / PDF
+                        (Max 2)</label>
                     <input type="file" name="photo_up[]" multiple max="2"
                         style="width:100%; padding:0.5rem; border:1px solid #d1d5db; border-radius:0.375rem;">
                 </div>

@@ -46,6 +46,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -59,6 +60,10 @@ class MemberRegistrationController extends Controller
 
             $image->move($destinationPath, $imageName);
             $input['image'] = 'member-registrations/' . $imageName;
+        }
+
+        if ($request->hasFile('digital_sign')) {
+            $input['digital_sign'] = $request->file('digital_sign')->store('member-registrations', 'public');
         }
 
         MemberRegistration::create($input);
@@ -104,6 +109,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:4048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -126,10 +132,31 @@ class MemberRegistrationController extends Controller
             unset($input['image']);
         }
 
+        if ($request->hasFile('digital_sign')) {
+            $input['digital_sign'] = $request->file('digital_sign')->store('member-registrations', 'public');
+        } else {
+            unset($input['digital_sign']);
+        }
+
         $memberRegistration->update($input);
 
         return redirect()->route('admin.member-registrations.index')
             ->with('success', 'Member Registration updated successfully');
+    }
+
+    public function viewFile($filename)
+    {
+        $path = storage_path('app/public/member-registrations/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        if (request()->has('download')) {
+            return response()->download($path);
+        }
+
+        return response()->file($path);
     }
 
     public function destroy(MemberRegistration $memberRegistration)
