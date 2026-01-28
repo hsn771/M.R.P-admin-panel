@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 
 class MemberRegistrationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $memberRegistrations = MemberRegistration::latest()->get();
+        $query = MemberRegistration::query();
+
+        if ($request->filled('search_id')) {
+            $query->where('id', $request->search_id);
+        }
+
+        if ($request->filled('search_name')) {
+            $query->where('name', 'like', '%' . $request->search_name . '%');
+        }
+
+        $memberRegistrations = $query->oldest()->get();
         return view('admin.member_registrations.index', compact('memberRegistrations'));
     }
 
@@ -74,6 +84,9 @@ class MemberRegistrationController extends Controller
 
     public function show(MemberRegistration $memberRegistration)
     {
+        if (request()->has('print')) {
+            return view('admin.member_registrations.print', compact('memberRegistration'));
+        }
         return view('admin.member_registrations.show', compact('memberRegistration'));
     }
 
@@ -147,6 +160,11 @@ class MemberRegistrationController extends Controller
     public function viewFile($filename)
     {
         $path = storage_path('app/public/member-registrations/' . $filename);
+
+        // Fallback to public path if storage path fails (handles manual moves)
+        if (!file_exists($path)) {
+            $path = public_path('storage/member-registrations/' . $filename);
+        }
 
         if (!file_exists($path)) {
             abort(404);

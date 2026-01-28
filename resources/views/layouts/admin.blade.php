@@ -158,7 +158,96 @@
         .nav-group-link {
             padding-left: 2rem;
         }
+
+        @media print {
+
+            .sidebar,
+            .topbar,
+            .btn,
+            form {
+                display: none !important;
+            }
+
+            .main {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .content {
+                padding: 0 !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9fafb;
+        }
+
+        .modal-body {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            background: #f9fafb;
+        }
+
+        .close-modal {
+            color: #9ca3af;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #111827;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -203,7 +292,7 @@
                                     'admin.member-registrations.*',
                                     'admin.agent-registrations.*',
                                     'admin.sub-agent-registrations.*',
-                                    'admin.contacts.*'
+                                    'admin.contacts.*',
                                 ];
                                 $isManageWebsiteActive = false;
                                 foreach ($manageWebsiteRoutes as $route) {
@@ -221,49 +310,49 @@
                             </div>
                             <div class="nav-group-items {{ $isManageWebsiteActive ? 'nav-group-items--open' : '' }}">
                                 <!-- <a href="{{ route('admin.sliders.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.sliders.*') ? 'nav-link--active' : '' }}">
-                                                    Sliders
-                                                </a>
-                                                <a href="{{ route('admin.photo-galleries.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
-                                                    Photo Galleries
-                                                </a>
-                                                <a href="{{ route('admin.video-galleries.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
-                                                    Video Galleries
-                                                </a>
-                                                <a href="{{ route('admin.header-logos.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.header-logos.*') ? 'nav-link--active' : '' }}">
-                                                    Settings
-                                                </a>
-                                                <a href="{{ route('admin.blogs.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.blogs.*') ? 'nav-link--active' : '' }}">
-                                                    Blogs
-                                                </a>
-                                                <a href="{{ route('admin.hero-sections.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.hero-sections.*') ? 'nav-link--active' : '' }}">
-                                                    Hero Sections
-                                                </a>
-                                                <a href="{{ route('admin.abouts.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.abouts.*') ? 'nav-link--active' : '' }}">
-                                                    Abouts
-                                                </a>
-                                                <a href="{{ route('admin.introductions.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.introductions.*') ? 'nav-link--active' : '' }}">
-                                                    Introductions
-                                                </a>
-                                                <a href="{{ route('admin.woman-empower-cards.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.woman-empower-cards.*') ? 'nav-link--active' : '' }}">
-                                                    Woman Empower Members
-                                                </a>
-                                                <a href="{{ route('admin.missions.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.missions.*') ? 'nav-link--active' : '' }}">
-                                                    Missions
-                                                </a>
-                                                <a href="{{ route('admin.request-submissions.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.request-submissions.*') ? 'nav-link--active' : '' }}">
-                                                    Complaints
-                                                </a> -->
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.sliders.*') ? 'nav-link--active' : '' }}">
+                                                                            Sliders
+                                                                        </a>
+                                                                        <a href="{{ route('admin.photo-galleries.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
+                                                                            Photo Galleries
+                                                                        </a>
+                                                                        <a href="{{ route('admin.video-galleries.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
+                                                                            Video Galleries
+                                                                        </a>
+                                                                        <a href="{{ route('admin.header-logos.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.header-logos.*') ? 'nav-link--active' : '' }}">
+                                                                            Settings
+                                                                        </a>
+                                                                        <a href="{{ route('admin.blogs.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.blogs.*') ? 'nav-link--active' : '' }}">
+                                                                            Blogs
+                                                                        </a>
+                                                                        <a href="{{ route('admin.hero-sections.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.hero-sections.*') ? 'nav-link--active' : '' }}">
+                                                                            Hero Sections
+                                                                        </a>
+                                                                        <a href="{{ route('admin.abouts.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.abouts.*') ? 'nav-link--active' : '' }}">
+                                                                            Abouts
+                                                                        </a>
+                                                                        <a href="{{ route('admin.introductions.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.introductions.*') ? 'nav-link--active' : '' }}">
+                                                                            Introductions
+                                                                        </a>
+                                                                        <a href="{{ route('admin.woman-empower-cards.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.woman-empower-cards.*') ? 'nav-link--active' : '' }}">
+                                                                            Woman Empower Members
+                                                                        </a>
+                                                                        <a href="{{ route('admin.missions.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.missions.*') ? 'nav-link--active' : '' }}">
+                                                                            Missions
+                                                                        </a>
+                                                                        <a href="{{ route('admin.request-submissions.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.request-submissions.*') ? 'nav-link--active' : '' }}">
+                                                                            Complaints
+                                                                        </a> -->
                                 <a href="{{ route('admin.member-registrations.index') }}"
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.member-registrations.*') ? 'nav-link--active' : '' }}">
                                     Member Registrations
@@ -283,24 +372,24 @@
                             </div>
                         </div>
                         <!-- <div class="nav-group">
-                                            <div class="nav-group-header {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-header--active' : '' }}"
-                                                onclick="toggleNavGroup(this)">
-                                                <span>Events & Notices</span>
-                                                <span
-                                                    class="nav-group-toggle {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-toggle--open' : '' }}">›</span>
-                                            </div>
-                                            <div
-                                                class="nav-group-items {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-items--open' : '' }}">
-                                                <a href="{{ route('admin.events.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.events.*') ? 'nav-link--active' : '' }}">
-                                                    Events
-                                                </a>
-                                                <a href="{{ route('admin.woman-notices.index') }}"
-                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.woman-notices.*') ? 'nav-link--active' : '' }}">
-                                                    Woman Notices
-                                                </a>
-                                            </div>
-                                        </div> -->
+                                                                    <div class="nav-group-header {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-header--active' : '' }}"
+                                                                        onclick="toggleNavGroup(this)">
+                                                                        <span>Events & Notices</span>
+                                                                        <span
+                                                                            class="nav-group-toggle {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-toggle--open' : '' }}">›</span>
+                                                                    </div>
+                                                                    <div
+                                                                        class="nav-group-items {{ request()->routeIs('admin.events.*') || request()->routeIs('admin.woman-notices.*') ? 'nav-group-items--open' : '' }}">
+                                                                        <a href="{{ route('admin.events.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.events.*') ? 'nav-link--active' : '' }}">
+                                                                            Events
+                                                                        </a>
+                                                                        <a href="{{ route('admin.woman-notices.index') }}"
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.woman-notices.*') ? 'nav-link--active' : '' }}">
+                                                                            Woman Notices
+                                                                        </a>
+                                                                    </div>
+                                                                </div> -->
                     @endif
                     <a href="{{ route('profile.edit') }}"
                         class="nav-link {{ request()->routeIs('profile.*') ? 'nav-link--active' : '' }}">
@@ -346,7 +435,7 @@
                 items.classList.add('nav-group-items--open');
                 toggle.classList.add('nav-group-toggle--open');
             }
-    }
+        }
     </script>
 </body>
 

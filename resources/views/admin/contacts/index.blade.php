@@ -40,14 +40,16 @@
                         <td style="padding:0.5rem 0.25rem;">{{ $contact->subject }}</td>
                         <td style="padding:0.5rem 0.25rem; text-align:right;">
                             <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
-                                <a href="{{ route('admin.contacts.show', $contact) }}" class="btn btn-outline">Show</a>
+                                <a href="{{ route('admin.contacts.show', $contact) }}" class="btn btn-outline">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
                                 <form action="{{ route('admin.contacts.destroy', $contact) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-outline" style="color:#b91c1c; border-color:#b91c1c;"
                                         onclick="return confirm('Are you sure you want to delete this?')">
-                                        Delete
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
                             </div>

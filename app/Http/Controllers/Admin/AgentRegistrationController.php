@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 
 class AgentRegistrationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $agentRegistrations = AgentRegistration::latest()->get();
+        $query = AgentRegistration::query();
+
+        if ($request->filled('search_id')) {
+            $query->where('id', $request->search_id);
+        }
+
+        if ($request->filled('search_name')) {
+            $query->where('full_name', 'like', '%' . $request->search_name . '%');
+        }
+
+        $agentRegistrations = $query->oldest()->get();
         return view('admin.agent_registrations.index', compact('agentRegistrations'));
     }
 
@@ -79,6 +89,9 @@ class AgentRegistrationController extends Controller
 
     public function show(AgentRegistration $agentRegistration)
     {
+        if (request()->has('print')) {
+            return view('admin.agent_registrations.print', compact('agentRegistration'));
+        }
         return view('admin.agent_registrations.show', compact('agentRegistration'));
     }
 
