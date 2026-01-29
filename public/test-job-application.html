@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form - Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        label .required {
+            color: #ef4444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-info {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .error-list {
+            margin-top: 0.5rem;
+            padding-left: 1.25rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Job Application Form</h1>
+        <p class="subtitle">Fill out the form below to apply for a vacancy</p>
+
+        <div id="message"></div>
+
+        <form id="jobApplicationForm">
+            <div class="form-group">
+                <label for="full_name">Full Name <span class="required">*</span></label>
+                <input type="text" id="full_name" name="full_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile_no">Mobile Number <span class="required">*</span></label>
+                <input type="tel" id="mobile_no" name="mobile_no" placeholder="+8801712345678" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apply_for_post">Apply For Post <span class="required">*</span></label>
+                <input type="text" id="apply_for_post" name="apply_for_post" placeholder="e.g., Software Engineer"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="educational_qualifications">Educational Qualifications <span
+                        class="required">*</span></label>
+                <textarea id="educational_qualifications" name="educational_qualifications" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="work_experience">Work Experience (Optional)</label>
+                <textarea id="work_experience" name="work_experience"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cover_letter">Cover Letter <span class="required">*</span></label>
+                <textarea id="cover_letter" name="cover_letter" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cv_upload">Upload CV/Resume <span class="required">*</span></label>
+                <input type="file" id="cv_upload" name="cv_upload" accept=".pdf,.doc,.docx" required>
+                <div class="file-info">Accepted formats: PDF, DOC, DOCX (Max: 10MB)</div>
+            </div>
+
+            <button type="submit" id="submitBtn">
+                Submit Application
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('jobApplicationForm');
+        const messageDiv = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear previous messages
+            messageDiv.innerHTML = '';
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+
+            // Create FormData
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/apply-for-vacancy', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Success
+                    messageDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>Success!</strong> ${data.message}
+                        </div>
+                    `;
+                    form.reset();
+
+                    // Scroll to message
+                    messageDiv.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Validation errors
+                    let errorHtml = '<div class="alert alert-error"><strong>Error!</strong> ' + data.message;
+
+                    if (data.errors) {
+                        errorHtml += '<ul class="error-list">';
+                        for (const [field, messages] of Object.entries(data.errors)) {
+                            messages.forEach(msg => {
+                                errorHtml += `<li>${msg}</li>`;
+                            });
+                        }
+                        errorHtml += '</ul>';
+                    }
+
+                    errorHtml += '</div>';
+                    messageDiv.innerHTML = errorHtml;
+
+                    // Scroll to message
+                    messageDiv.scrollIntoView({ behavior: 'smooth' });
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `
+                    <div class="alert alert-error">
+                        <strong>Error!</strong> Failed to submit application. Please check your connection and try again.
+                    </div>
+                `;
+                console.error('Error:', error);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Application';
+            }
+        });
+    </script>
+</body>
+
+</html>

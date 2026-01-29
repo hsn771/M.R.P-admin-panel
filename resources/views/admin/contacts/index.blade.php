@@ -3,7 +3,13 @@
 @section('title', 'Contacts')
 
 @section('header')
-    <h1 style="font-size: 1.1rem; font-weight: 600;">Contacts</h1>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1 style="font-size: 1.1rem; font-weight: 600;">Contacts</h1>
+        <a href="{{ route('admin.our-details.index') }}" class="btn btn-outline"
+            style="text-decoration: none; margin-left: 20px;">
+            Our Details
+        </a>
+    </div>
 @endsection
 
 @section('content')

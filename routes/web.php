@@ -107,6 +107,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Contact management
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
+
+    // Our Details management
+    Route::resource('our-details', \App\Http\Controllers\Admin\OurDetailController::class);
+
+    // Vacancy management
+    Route::resource('vacancies', \App\Http\Controllers\Admin\VacancyController::class);
+
+    // Job Applications management
+    Route::resource('job-applications', \App\Http\Controllers\Admin\JobApplicationController::class)->only(['index', 'show', 'destroy']);
 });
 
 // Authenticated user profile
