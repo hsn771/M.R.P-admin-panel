@@ -22,7 +22,7 @@ class JobApplicationController extends Controller
             'work_experience' => 'nullable|string',
             'educational_qualifications' => 'required|string',
             'cover_letter' => 'required|string',
-            'cv_upload' => 'required|file|mimes:pdf,doc,docx|max:10240', // Max 10MB
+            'cv_upload' => 'required|file|mimes:pdf,doc,docx|max:20480', // Max 20MB
         ]);
 
         if ($validator->fails()) {

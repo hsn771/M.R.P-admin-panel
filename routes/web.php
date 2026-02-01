@@ -69,7 +69,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/header-logos', [AdminHeaderLogoController::class, 'update'])->name('header-logos.update');
 
     // Event management
-    Route::resource('events', AdminEventController::class)->except(['show']);
+    Route::resource('events', AdminEventController::class);
 
     // Woman notice management
     Route::resource('woman-notices', AdminWomanNoticeController::class)->except(['show']);

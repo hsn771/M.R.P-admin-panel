@@ -34,7 +34,7 @@ Route::get('sliders', [SliderController::class, 'index']);
 Route::get('/photo-galleries', [PhotoGalleryController::class, 'index']);
 Route::get('/video-galleries', [VideoGalleryController::class, 'index']);
 Route::get('/header-logos', [HeaderLogoController::class, 'index']);
-Route::get('/events', [EventController::class, 'index']);
+Route::get('/event', [EventController::class, 'index']);
 Route::get('/woman-notices', [WomanNoticeController::class, 'index']);
 Route::get('/blogs', [BlogController::class, 'index']);
 Route::get('/hero-sections', [HeroSectionController::class, 'index']);
