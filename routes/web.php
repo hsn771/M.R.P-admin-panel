@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\MemberRegistrationController as AdminMemberRegist
 use App\Http\Controllers\Admin\AgentRegistrationController as AdminAgentRegistrationController;
 use App\Http\Controllers\Admin\SubAgentRegistrationController as AdminSubAgentRegistrationController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\EventRegistrationController as AdminEventRegistrationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -116,6 +117,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Job Applications management
     Route::resource('job-applications', \App\Http\Controllers\Admin\JobApplicationController::class)->only(['index', 'show', 'destroy']);
+
+    // Event Registration management
+    Route::resource('event-registrations', AdminEventRegistrationController::class)->only(['index', 'show', 'destroy']);
 });
 
 // Authenticated user profile

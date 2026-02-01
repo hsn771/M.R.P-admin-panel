@@ -268,13 +268,13 @@
                             Users
                         </a>
                         <!-- <a href="{{ route('admin.roles.index') }}"
-                                                    class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
-                                                    Roles
-                                                </a>
-                                                <a href="{{ route('admin.permissions.index') }}"
-                                                    class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
-                                                    Permissions
-                                                </a> -->
+                                                            class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
+                                                            Roles
+                                                        </a>
+                                                        <a href="{{ route('admin.permissions.index') }}"
+                                                            class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
+                                                            Permissions
+                                                        </a> -->
                         <div class="nav-group">
                             @php
                                 $manageWebsiteRoutes = [
@@ -297,6 +297,7 @@
                                     'admin.vacancies.*',
                                     'admin.job-applications.*',
                                     'admin.events.*',
+                                    'admin.event-registrations.*',
                                 ];
                                 $isManageWebsiteActive = false;
                                 foreach ($manageWebsiteRoutes as $route) {
@@ -314,49 +315,49 @@
                             </div>
                             <div class="nav-group-items {{ $isManageWebsiteActive ? 'nav-group-items--open' : '' }}">
                                 <!-- <a href="{{ route('admin.sliders.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.sliders.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Sliders
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.photo-galleries.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Photo Galleries
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.video-galleries.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Video Galleries
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.header-logos.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.header-logos.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Settings
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.blogs.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.blogs.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Blogs
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.hero-sections.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.hero-sections.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Hero Sections
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.abouts.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.abouts.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Abouts
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.introductions.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.introductions.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Introductions
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.woman-empower-cards.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.woman-empower-cards.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Woman Empower Members
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.missions.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.missions.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Missions
-                                                                                                                                                                </a>
-                                                                                                                                                                <a href="{{ route('admin.request-submissions.index') }}"
-                                                                                                                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.request-submissions.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                    Complaints
-                                                                                                                                                                </a> -->
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.sliders.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Sliders
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.photo-galleries.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Photo Galleries
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.video-galleries.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Video Galleries
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.header-logos.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.header-logos.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Settings
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.blogs.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.blogs.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Blogs
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.hero-sections.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.hero-sections.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Hero Sections
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.abouts.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.abouts.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Abouts
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.introductions.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.introductions.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Introductions
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.woman-empower-cards.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.woman-empower-cards.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Woman Empower Members
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.missions.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.missions.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Missions
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.request-submissions.index') }}"
+                                                                                                                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.request-submissions.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Complaints
+                                                                                                                                                                        </a> -->
                                 <a href="{{ route('admin.member-registrations.index') }}"
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.member-registrations.*') ? 'nav-link--active' : '' }}">
                                     Member Registrations
@@ -377,10 +378,14 @@
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.events.*') ? 'nav-link--active' : '' }}">
                                     Events
                                 </a>
+                                <a href="{{ route('admin.event-registrations.index') }}"
+                                    class="nav-link nav-group-link {{ request()->routeIs('admin.event-registrations.*') ? 'nav-link--active' : '' }}">
+                                    Event Registrations
+                                </a>
                                 <!-- <a href="{{ route('admin.our-details.index') }}"
-                                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.our-details.*') ? 'nav-link--active' : '' }}">
-                                                                    Our Details
-                                                                </a> -->
+                                                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-details.*') ? 'nav-link--active' : '' }}">
+                                                                            Our Details
+                                                                        </a> -->
                                 <!-- Nested Career Menu -->
                                 <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
                                     @php

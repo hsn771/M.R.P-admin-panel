@@ -50,6 +50,7 @@ Route::post('/contact', [\App\Http\Controllers\Api\ContactController::class, 'st
 Route::get('/our-details', [\App\Http\Controllers\Api\OurDetailController::class, 'index']);
 Route::get('/vacancies', [\App\Http\Controllers\Api\VacancyController::class, 'index']);
 Route::post('/apply-for-vacancy', [\App\Http\Controllers\Api\JobApplicationController::class, 'store']);
+Route::post('/event-registration', [\App\Http\Controllers\Api\EventRegistrationController::class, 'store']);
 
 // Protected API routes
 Route::middleware('auth:api')->group(function (): void {
