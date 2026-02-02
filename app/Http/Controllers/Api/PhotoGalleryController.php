@@ -18,7 +18,9 @@ class PhotoGalleryController extends Controller
             ->map(function ($photoGallery) {
                 return [
                     'id' => $photoGallery->id,
-                    'image' => $photoGallery->image_url,
+                    'title' => $photoGallery->title,
+                    'date' => $photoGallery->date ? $photoGallery->date->format('Y-m-d') : null,
+                    'images' => $photoGallery->image_urls,
                     'created_at' => $photoGallery->created_at->toISOString(),
                 ];
             });

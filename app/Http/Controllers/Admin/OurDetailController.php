@@ -16,6 +16,11 @@ class OurDetailController extends Controller
         return view('admin.our-details.index', compact('ourDetails'));
     }
 
+    public function show(OurDetail $ourDetail): View
+    {
+        return view('admin.our-details.show', compact('ourDetail'));
+    }
+
     public function create(): View
     {
         return view('admin.our-details.create');

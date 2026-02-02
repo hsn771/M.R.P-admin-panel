@@ -6,17 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhotoGallery extends Model
 {
-    protected $fillable = ['image'];
+    protected $fillable = ['title', 'date', 'images'];
+
+    protected $casts = [
+        'images' => 'array',
+        'date' => 'date',
+    ];
 
     /**
-     * Get the full URL for the photo gallery image
+     * Get the full URLs for the photo gallery images
      */
-    public function getImageUrlAttribute(): ?string
+    public function getImageUrlsAttribute(): array
     {
-        if (!$this->image) {
-            return null;
+        if (!$this->images || !is_array($this->images)) {
+            return [];
         }
 
-        return asset('storage/' . $this->image);
+        return array_map(function ($image) {
+            return asset('storage/' . $image);
+        }, $this->images);
     }
 }

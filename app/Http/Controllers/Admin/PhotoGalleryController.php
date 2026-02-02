@@ -26,32 +26,34 @@ class PhotoGalleryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'title' => ['required', 'string', 'max:255'],
+            'date' => ['required', 'date'],
+            'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'images' => ['required', 'array'],
         ]);
     
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-    
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+        if ($request->hasFile('images')) {
+            $images = [];
             $destinationPath = public_path('storage/photo-galleries');
-    
-            // Create directory if it does not exist
+
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
+
+            foreach ($request->file('images') as $image) {
+                $imageName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $imageName);
+                $images[] = 'photo-galleries/' . $imageName;
+            }
     
-            // Move image to public folder
-            $image->move($destinationPath, $imageName);
-    
-            // Save relative path in database
-            $data['image'] = 'photo-galleries/' . $imageName;
+            $data['images'] = $images;
         }
     
         PhotoGallery::create($data);
     
         return redirect()
             ->route('admin.photo-galleries.index')
-            ->with('status', 'Photo added to gallery successfully.');
+            ->with('status', 'Photo gallery created successfully.');
     }
 
 
@@ -63,53 +65,68 @@ class PhotoGalleryController extends Controller
     public function update(Request $request, PhotoGallery $photoGallery): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'title' => ['required', 'string', 'max:255'],
+            'date' => ['required', 'date'],
+            'images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'images' => ['nullable', 'array'],
+            'remove_images' => ['nullable', 'array'],
         ]);
     
-        if ($request->hasFile('image')) {
-    
-            // Delete old image from public folder
-            if ($photoGallery->image && file_exists(public_path('storage/'.$photoGallery->image))) {
-                unlink(public_path('storage/'.$photoGallery->image));
+        $currentImages = $photoGallery->images ?? [];
+
+        // Remove selected images
+        if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $imagePath) {
+                if (file_exists(public_path('storage/' . $imagePath))) {
+                    unlink(public_path('storage/' . $imagePath));
+                }
+                if (($key = array_search($imagePath, $currentImages)) !== false) {
+                    unset($currentImages[$key]);
+                }
             }
-    
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $currentImages = array_values($currentImages);
+        }
+
+        // Add new images
+        if ($request->hasFile('images')) {
             $destinationPath = public_path('storage/photo-galleries');
-    
-            // Create directory if not exists
+
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
-    
-            // Move new image
-            $image->move($destinationPath, $imageName);
-    
-            // Save relative path
-            $data['image'] = 'photo-galleries/' . $imageName;
-        } else {
-            unset($data['image']);
+
+            foreach ($request->file('images') as $image) {
+                $imageName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $imageName);
+                $currentImages[] = 'photo-galleries/' . $imageName;
+            }
         }
+    
+        $data['images'] = $currentImages;
     
         $photoGallery->update($data);
     
         return redirect()
             ->route('admin.photo-galleries.index')
-            ->with('status', 'Photo updated successfully.');
+            ->with('status', 'Photo gallery updated successfully.');
     }
 
 
     public function destroy(PhotoGallery $photoGallery): RedirectResponse
     {
-        // Delete image file
-        if ($photoGallery->image && file_exists(public_path('storage/'.$photoGallery->image))) {
-            unlink(public_path('storage/'.$photoGallery->image));
+        // Delete all images
+        if ($photoGallery->images && is_array($photoGallery->images)) {
+            foreach ($photoGallery->images as $image) {
+                if (file_exists(public_path('storage/' . $image))) {
+                    unlink(public_path('storage/' . $image));
+                }
+            }
         }
 
         $photoGallery->delete();
 
         return redirect()
             ->route('admin.photo-galleries.index')
-            ->with('status', 'Photo deleted successfully.');
+            ->with('status', 'Photo gallery deleted successfully.');
     }
 }

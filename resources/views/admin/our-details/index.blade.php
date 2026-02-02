@@ -11,9 +11,9 @@
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
             <div class="muted">Manage Our Details.</div>
             <!-- <a href="{{ route('admin.our-details.create') }}" class="btn btn-primary"
-                        style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
-                        <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Add New
-                    </a> -->
+                            style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                            <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Add New
+                        </a> -->
         </div>
         @if (session('status'))
             <div
@@ -50,6 +50,10 @@
                         </td>
                         <td style="padding:0.5rem 0.25rem; text-align:right;">
                             <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                                <a href="{{ route('admin.our-details.show', $detail) }}" class="btn btn-outline"
+                                    style="color: #6366f1;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
                                 <a href="{{ route('admin.our-details.edit', $detail) }}" class="btn btn-outline"
                                     style="color: #2563eb;">
                                     <i class="fa-solid fa-pen"></i>
