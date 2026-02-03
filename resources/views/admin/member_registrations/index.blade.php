@@ -17,18 +17,20 @@
                         style="padding:0.4rem 0.75rem; border:1px solid #e5e7eb; border-radius:0.375rem; font-size:0.875rem;">
                     <input type="text" name="search_name" placeholder="Search by Name" value="{{ request('search_name') }}"
                         style="padding:0.4rem 0.75rem; border:1px solid #e5e7eb; border-radius:0.375rem; font-size:0.875rem;">
-                    <button type="submit" class="btn btn-primary" style="padding: 0.45rem 1rem;">
-                        <i class="fa-solid fa-magnifying-glass" style="margin-right: 0.4rem;"></i> Search
+                    <button type="submit" class="btn btn-primary"
+                        style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                        <i class="fa-solid fa-magnifying-glass" style="margin-right: 0.5rem;"></i> Search
                     </button>
                     @if(request('search_id') || request('search_name'))
                         <a href="{{ route('admin.member-registrations.index') }}" class="btn btn-outline"
-                            style="padding: 0.45rem 1rem;">
-                            <i class="fa-solid fa-rotate-left" style="margin-right: 0.4rem;"></i> Clear
+                            style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                            <i class="fa-solid fa-rotate-left" style="margin-right: 0.5rem;"></i> Clear
                         </a>
                     @endif
                 </form>
-                <a href="{{ route('admin.member-registrations.create') }}" class="btn btn-primary">
-                    <i class="fa-solid fa-plus" style="margin-right: 0.4rem;"></i> Add New
+                <a href="{{ route('admin.member-registrations.create') }}" class="btn btn-primary"
+                    style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                    <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Add New
                 </a>
             </div>
         </div>

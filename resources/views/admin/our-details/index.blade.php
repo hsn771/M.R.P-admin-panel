@@ -10,10 +10,10 @@
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
             <div class="muted">Manage Our Details.</div>
-            <!-- <a href="{{ route('admin.our-details.create') }}" class="btn btn-primary"
-                            style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
-                            <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Add New
-                        </a> -->
+            {{-- <a href="{{ route('admin.our-details.create') }}" class="btn btn-primary"
+                style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i> Add New
+            </a> --}}
         </div>
         @if (session('status'))
             <div

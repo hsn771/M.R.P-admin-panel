@@ -21,6 +21,32 @@
             </div>
         </div>
 
+        @if($ourDetail->logo)
+            <div style="margin-bottom: 1.5rem;">
+                <label
+                    style="display:block; font-weight:600; color: #4b5563; font-size: 0.85rem; margin-bottom:0.5rem;">Logo</label>
+                <img src="{{ asset('storage/' . $ourDetail->logo) }}" alt="Logo"
+                    style="max-width: 200px; height: auto; border-radius: 0.5rem;">
+            </div>
+        @endif
+
+        @if($ourDetail->title)
+            <div style="margin-bottom: 1.5rem;">
+                <label
+                    style="display:block; font-weight:600; color: #4b5563; font-size: 0.85rem; margin-bottom:0.25rem;">Title</label>
+                <p style="color: #111827; font-size: 1.1rem; font-weight: 500;">{{ $ourDetail->title }}</p>
+            </div>
+        @endif
+
+        @if($ourDetail->footer_description)
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display:block; font-weight:600; color: #4b5563; font-size: 0.85rem; margin-bottom:0.25rem;">Footer
+                    Description</label>
+                <p style="color: #111827; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">
+                    {{ $ourDetail->footer_description }}</p>
+            </div>
+        @endif
+
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
             <div>
                 <label

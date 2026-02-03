@@ -8,9 +8,39 @@
 
 @section('content')
     <div class="card">
-        <form action="{{ route('admin.our-details.update', $ourDetail) }}" method="POST">
+        <form action="{{ route('admin.our-details.update', $ourDetail) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            <div style="margin-bottom: 1rem;">
+                <label for="logo" style="display:block; font-weight:500; margin-bottom:0.5rem;">Logo</label>
+                @if($ourDetail->logo)
+                    <div style="margin-bottom: 0.5rem;">
+                        <img src="{{ asset('storage/' . $ourDetail->logo) }}" alt="Current Logo"
+                            style="width: 100px; height: auto; border-radius: 0.25rem;">
+                    </div>
+                @endif
+                <input type="file" name="logo" id="logo" accept="image/*"
+                    style="width:100%; padding:0.45rem 0.6rem; border-radius:0.4rem; border:1px solid #d1d5db;">
+                <small style="color: #6b7280;">Leave empty to keep current logo.</small>
+                @error('logo') <div style="color:red; font-size:0.875rem;">{{ $message }}</div> @enderror
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="title" style="display:block; font-weight:500; margin-bottom:0.5rem;">Title</label>
+                <input type="text" name="title" id="title"
+                    style="width:100%; padding:0.45rem 0.6rem; border-radius:0.4rem; border:1px solid #d1d5db;"
+                    value="{{ old('title', $ourDetail->title) }}">
+                @error('title') <div style="color:red; font-size:0.875rem;">{{ $message }}</div> @enderror
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="footer_description" style="display:block; font-weight:500; margin-bottom:0.5rem;">Footer
+                    Description</label>
+                <textarea name="footer_description" id="footer_description" rows="4"
+                    style="width:100%; padding:0.45rem 0.6rem; border-radius:0.4rem; border:1px solid #d1d5db;">{{ old('footer_description', $ourDetail->footer_description) }}</textarea>
+                @error('footer_description') <div style="color:red; font-size:0.875rem;">{{ $message }}</div> @enderror
+            </div>
 
             <div style="margin-bottom: 1rem;">
                 <label for="our_address" style="display:block; font-weight:500; margin-bottom:0.5rem;">Address</label>

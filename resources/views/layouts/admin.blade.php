@@ -268,13 +268,13 @@
                             Users
                         </a>
                         <!-- <a href="{{ route('admin.roles.index') }}"
-                                                                                                    class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
-                                                                                                    Roles
-                                                                                                </a>
-                                                                                                <a href="{{ route('admin.permissions.index') }}"
-                                                                                                    class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
-                                                                                                    Permissions
-                                                                                                </a> -->
+                                                                                                                                                                            class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Roles
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <a href="{{ route('admin.permissions.index') }}"
+                                                                                                                                                                            class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
+                                                                                                                                                                            Permissions
+                                                                                                                                                                        </a> -->
                         <div class="nav-group">
                             @php
                                 $manageWebsiteRoutes = [
@@ -298,6 +298,10 @@
                                     'admin.job-applications.*',
                                     'admin.events.*',
                                     'admin.event-registrations.*',
+                                    'admin.news.*',
+                                    'admin.our-initials.*',
+                                    'admin.our-milestones.*',
+                                    'admin.our-leaderships.*',
                                 ];
                                 $isManageWebsiteActive = false;
                                 foreach ($manageWebsiteRoutes as $route) {
@@ -322,6 +326,46 @@
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
                                     Photo Galleries
                                 </a>
+                                <a href="{{ route('admin.news.index') }}"
+                                    class="nav-link nav-group-link {{ request()->routeIs('admin.news.*') ? 'nav-link--active' : '' }}">
+                                    News
+                                </a>
+                                <!-- Nested About Us Menu -->
+                                <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
+                                    @php
+                                        $aboutUsRoutes = ['admin.our-initials.*', 'admin.our-milestones.*', 'admin.our-leaderships.*'];
+                                        $isAboutUsActive = false;
+                                        foreach ($aboutUsRoutes as $route) {
+                                            if (request()->routeIs($route)) {
+                                                $isAboutUsActive = true;
+                                                break;
+                                            }
+                                        }
+                                    @endphp
+                                    <div class="nav-group-header {{ $isAboutUsActive ? 'nav-group-header--active' : '' }}"
+                                        onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
+                                        <span>About us</span>
+                                        <span
+                                            class="nav-group-toggle {{ $isAboutUsActive ? 'nav-group-toggle--open' : '' }}">›</span>
+                                    </div>
+                                    <div class="nav-group-items {{ $isAboutUsActive ? 'nav-group-items--open' : '' }}">
+                                        <a href="{{ route('admin.our-initials.index') }}"
+                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-initials.*') ? 'nav-link--active' : '' }}"
+                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                            Our Initials
+                                        </a>
+                                        <a href="{{ route('admin.our-milestones.index') }}"
+                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-milestones.*') ? 'nav-link--active' : '' }}"
+                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                            Our Milestones
+                                        </a>
+                                        <a href="{{ route('admin.our-leaderships.index') }}"
+                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-leaderships.*') ? 'nav-link--active' : '' }}"
+                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                            Our Leadership
+                                        </a>
+                                    </div>
+                                </div>
                                 {{-- <a href="{{ route('admin.video-galleries.index') }}"
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
                                     Video Galleries

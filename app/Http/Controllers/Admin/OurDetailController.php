@@ -29,6 +29,9 @@ class OurDetailController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'title' => 'nullable|string|max:255',
+            'footer_description' => 'nullable|string',
             'our_address' => 'required|string|max:255',
             'our_phone' => 'required|string|max:255',
             'our_email' => 'required|email|max:255',
@@ -37,6 +40,17 @@ class OurDetailController extends Controller
             'insta_link' => 'nullable|url',
             'linkedin_link' => 'nullable|url',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $destinationPath = public_path('storage/our-details');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $image = $request->file('logo');
+            $imageName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+            $data['logo'] = 'our-details/' . $imageName;
+        }
 
         OurDetail::create($data);
 
@@ -52,6 +66,9 @@ class OurDetailController extends Controller
     public function update(Request $request, OurDetail $ourDetail): RedirectResponse
     {
         $data = $request->validate([
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'title' => 'nullable|string|max:255',
+            'footer_description' => 'nullable|string',
             'our_address' => 'required|string|max:255',
             'our_phone' => 'required|string|max:255',
             'our_email' => 'required|email|max:255',
@@ -61,6 +78,22 @@ class OurDetailController extends Controller
             'linkedin_link' => 'nullable|url',
         ]);
 
+        if ($request->hasFile('logo')) {
+            // Delete old image
+            if ($ourDetail->logo && file_exists(public_path('storage/' . $ourDetail->logo))) {
+                unlink(public_path('storage/' . $ourDetail->logo));
+            }
+
+            $destinationPath = public_path('storage/our-details');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $image = $request->file('logo');
+            $imageName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+            $data['logo'] = 'our-details/' . $imageName;
+        }
+
         $ourDetail->update($data);
 
         return redirect()->route('admin.our-details.index')
@@ -69,6 +102,10 @@ class OurDetailController extends Controller
 
     public function destroy(OurDetail $ourDetail): RedirectResponse
     {
+        if ($ourDetail->logo && file_exists(public_path('storage/' . $ourDetail->logo))) {
+            unlink(public_path('storage/' . $ourDetail->logo));
+        }
+
         $ourDetail->delete();
 
         return redirect()->route('admin.our-details.index')

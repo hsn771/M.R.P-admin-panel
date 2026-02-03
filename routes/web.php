@@ -23,6 +23,10 @@ use App\Http\Controllers\Admin\AgentRegistrationController as AdminAgentRegistra
 use App\Http\Controllers\Admin\SubAgentRegistrationController as AdminSubAgentRegistrationController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\EventRegistrationController as AdminEventRegistrationController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\OurInitialController as AdminOurInitialController;
+use App\Http\Controllers\Admin\OurMilestoneController as AdminOurMilestoneController;
+use App\Http\Controllers\Admin\OurLeadershipController as AdminOurLeadershipController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -120,6 +124,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Event Registration management
     Route::resource('event-registrations', AdminEventRegistrationController::class)->only(['index', 'show', 'destroy']);
+
+    // News management
+    Route::resource('news', AdminNewsController::class);
+
+    // Our Initials management
+    Route::resource('our-initials', AdminOurInitialController::class);
+
+    // Our Milestones management
+    Route::resource('our-milestones', AdminOurMilestoneController::class);
+
+    // Our Leaderships management
+    Route::resource('our-leaderships', AdminOurLeadershipController::class);
 });
 
 // Authenticated user profile

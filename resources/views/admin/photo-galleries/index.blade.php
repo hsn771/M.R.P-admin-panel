@@ -10,7 +10,9 @@
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
             <div class="muted">Manage photo gallery images.</div>
-            <a href="{{ route('admin.photo-galleries.create') }}" class="btn btn-primary">Add photo</a>
+            <a href="{{ route('admin.photo-galleries.create') }}" class="btn btn-primary"
+                style="background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-size: 0.875rem;">
+                <i class="fa-solid fa-plus" style="margin-right: 0.5rem;"></i>Add photo</a>
         </div>
 
         @if (session('status'))
@@ -36,7 +38,8 @@
                         <td style="padding:0.5rem 0.25rem;">{{ $photoGallery->id }}</td>
                         <td style="padding:0.5rem 0.25rem;">{{ $photoGallery->title }}</td>
                         <td style="padding:0.5rem 0.25rem;">
-                            {{ $photoGallery->date ? $photoGallery->date->format('M d, Y') : '-' }}</td>
+                            {{ $photoGallery->date ? $photoGallery->date->format('M d, Y') : '-' }}
+                        </td>
                         <td style="padding:0.5rem 0.25rem;">
                             @if($photoGallery->images && count($photoGallery->images) > 0)
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -51,15 +54,18 @@
                         </td>
                         <td style="padding:0.5rem 0.25rem; text-align:right;">
                             <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
-                                <a href="{{ route('admin.photo-galleries.edit', $photoGallery) }}"
-                                    class="btn btn-outline">Edit</a>
+                                <a href="{{ route('admin.photo-galleries.edit', $photoGallery) }}" class="btn btn-outline"
+                                    style="padding: 0.4rem 0.8rem;">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
                                 <form action="{{ route('admin.photo-galleries.destroy', $photoGallery) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline" style="color:#b91c1c; border-color:#b91c1c;"
+                                    <button type="submit" class="btn btn-outline"
+                                        style="color:#b91c1c; border-color:#b91c1c; padding: 0.4rem 0.8rem;"
                                         onclick="return confirm('Are you sure you want to delete this gallery?')">
-                                        Delete
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
