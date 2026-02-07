@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\OurInitialController as AdminOurInitialController;
 use App\Http\Controllers\Admin\OurMilestoneController as AdminOurMilestoneController;
 use App\Http\Controllers\Admin\OurLeadershipController as AdminOurLeadershipController;
+use App\Http\Controllers\Admin\OurMissionController as AdminOurMissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -136,6 +137,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Our Leaderships management
     Route::resource('our-leaderships', AdminOurLeadershipController::class);
+
+    // Our Missions management
+    Route::resource('our-missions', AdminOurMissionController::class);
 });
 
 // Authenticated user profile
