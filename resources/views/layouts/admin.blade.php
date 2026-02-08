@@ -258,23 +258,29 @@
             </div>
             <nav>
                 @auth
-                    @if(auth()->user()->hasRole('admin'))
+                    @if(auth()->user()->can('access admin'))
                         <a href="{{ route('admin.dashboard') }}"
                             class="nav-link {{ request()->routeIs('admin.dashboard') ? 'nav-link--active' : '' }}">
                             Dashboard
                         </a>
-                        <a href="{{ route('admin.users.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.users.*') ? 'nav-link--active' : '' }}">
-                            Users
-                        </a>
-                        <!-- <a href="{{ route('admin.roles.index') }}"
-                                                                                                                                                                                            class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                                            Roles
-                                                                                                                                                                                        </a>
-                                                                                                                                                                                        <a href="{{ route('admin.permissions.index') }}"
-                                                                                                                                                                                            class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
-                                                                                                                                                                                            Permissions
-                                                                                                                                                                                        </a> -->
+                        @can('manage users')
+                            <a href="{{ route('admin.users.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.users.*') ? 'nav-link--active' : '' }}">
+                                Users
+                            </a>
+                        @endcan
+                        @can('manage roles')
+                            <a href="{{ route('admin.roles.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.roles.*') ? 'nav-link--active' : '' }}">
+                                Roles
+                            </a>
+                        @endcan
+                        @can('manage permissions')
+                            <a href="{{ route('admin.permissions.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.permissions.*') ? 'nav-link--active' : '' }}">
+                                Permissions
+                            </a>
+                        @endcan
                         <div class="nav-group">
                             @php
                                 $manageWebsiteRoutes = [
@@ -302,6 +308,8 @@
                                     'admin.our-initials.*',
                                     'admin.our-milestones.*',
                                     'admin.our-leaderships.*',
+                                    'admin.homes.*',
+                                    'admin.subscribers.*',
                                 ];
                                 $isManageWebsiteActive = false;
                                 foreach ($manageWebsiteRoutes as $route) {
@@ -318,177 +326,185 @@
                                     class="nav-group-toggle {{ $isManageWebsiteActive ? 'nav-group-toggle--open' : '' }}">›</span>
                             </div>
                             <div class="nav-group-items {{ $isManageWebsiteActive ? 'nav-group-items--open' : '' }}">
-                                {{-- <a href="{{ route('admin.sliders.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.sliders.*') ? 'nav-link--active' : '' }}">
-                                    Sliders
-                                </a> --}}
-                                <a href="{{ route('admin.photo-galleries.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}">
-                                    Photo Galleries
-                                </a>
-                                <a href="{{ route('admin.news.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.news.*') ? 'nav-link--active' : '' }}">
-                                    News
-                                </a>
-                                <!-- Nested About Us Menu -->
+                                @can('manage homes')
+                                    <a href="{{ route('admin.homes.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.homes.*') ? 'nav-link--active' : '' }}">
+                                        Home
+                                    </a>
+                                @endcan
+                                @can('manage abouts') {{-- Or specific about us permissions if needed --}}
+                                    <!-- Nested About Us Menu -->
+                                    <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
+                                        @php
+                                            $aboutUsRoutes = ['admin.our-initials.*', 'admin.our-milestones.*', 'admin.our-leaderships.*', 'admin.our-missions.*'];
+                                            $isAboutUsActive = false;
+                                            foreach ($aboutUsRoutes as $route) {
+                                                if (request()->routeIs($route)) {
+                                                    $isAboutUsActive = true;
+                                                    break;
+                                                }
+                                            }
+                                        @endphp
+                                        <div class="nav-group-header {{ $isAboutUsActive ? 'nav-group-header--active' : '' }}"
+                                            onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
+                                            <span>About us</span>
+                                            <span
+                                                class="nav-group-toggle {{ $isAboutUsActive ? 'nav-group-toggle--open' : '' }}">›</span>
+                                        </div>
+                                        <div class="nav-group-items {{ $isAboutUsActive ? 'nav-group-items--open' : '' }}">
+                                            @can('manage our initials')
+                                                <a href="{{ route('admin.our-initials.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.our-initials.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Our Initials
+                                                </a>
+                                            @endcan
+                                            @can('manage our milestones')
+                                                <a href="{{ route('admin.our-milestones.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.our-milestones.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Our Milestones
+                                                </a>
+                                            @endcan
+                                            @can('manage our leaderships')
+                                                <a href="{{ route('admin.our-leaderships.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.our-leaderships.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Our Leadership
+                                                </a>
+                                            @endcan
+                                            @can('manage our missions')
+                                                <a href="{{ route('admin.our-missions.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.our-missions.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Our Missions
+                                                </a>
+                                            @endcan
+                                        </div>
+                                    </div>
+                                @endcan
+                                <!-- Media Menu -->
                                 <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
                                     @php
-                                        $aboutUsRoutes = ['admin.our-initials.*', 'admin.our-milestones.*', 'admin.our-leaderships.*', 'admin.our-missions.*'];
-                                        $isAboutUsActive = false;
-                                        foreach ($aboutUsRoutes as $route) {
+                                        $mediaRoutes = ['admin.photo-galleries.*', 'admin.news.*', 'admin.events.*', 'admin.event-registrations.*'];
+                                        $isMediaActive = false;
+                                        foreach ($mediaRoutes as $route) {
                                             if (request()->routeIs($route)) {
-                                                $isAboutUsActive = true;
+                                                $isMediaActive = true;
                                                 break;
                                             }
                                         }
                                     @endphp
-                                    <div class="nav-group-header {{ $isAboutUsActive ? 'nav-group-header--active' : '' }}"
+                                    <div class="nav-group-header {{ $isMediaActive ? 'nav-group-header--active' : '' }}"
                                         onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
-                                        <span>About us</span>
+                                        <span>Media</span>
                                         <span
-                                            class="nav-group-toggle {{ $isAboutUsActive ? 'nav-group-toggle--open' : '' }}">›</span>
+                                            class="nav-group-toggle {{ $isMediaActive ? 'nav-group-toggle--open' : '' }}">›</span>
                                     </div>
-                                    <div class="nav-group-items {{ $isAboutUsActive ? 'nav-group-items--open' : '' }}">
-                                        <a href="{{ route('admin.our-initials.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-initials.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Our Initials
-                                        </a>
-                                        <a href="{{ route('admin.our-milestones.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-milestones.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Our Milestones
-                                        </a>
-                                        <a href="{{ route('admin.our-leaderships.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-leaderships.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Our Leadership
-                                        </a>
-                                        <a href="{{ route('admin.our-missions.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.our-missions.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Our Missions
-                                        </a>
+                                    <div class="nav-group-items {{ $isMediaActive ? 'nav-group-items--open' : '' }}">
+                                        @can('manage photo galleries')
+                                            <a href="{{ route('admin.photo-galleries.index') }}"
+                                                class="nav-link nav-group-link {{ request()->routeIs('admin.photo-galleries.*') ? 'nav-link--active' : '' }}"
+                                                style="padding-left: 1.5rem; font-size: 0.80rem;">
+                                                Photo Galleries
+                                            </a>
+                                        @endcan
+                                        @can('manage news')
+                                            <a href="{{ route('admin.news.index') }}"
+                                                class="nav-link nav-group-link {{ request()->routeIs('admin.news.*') ? 'nav-link--active' : '' }}"
+                                                style="padding-left: 1.5rem; font-size: 0.80rem;">
+                                                News
+                                            </a>
+                                        @endcan
+                                        @can('manage events')
+                                            <a href="{{ route('admin.events.index') }}"
+                                                class="nav-link nav-group-link {{ request()->routeIs('admin.events.*') ? 'nav-link--active' : '' }}"
+                                                style="padding-left: 1.5rem; font-size: 0.80rem;">
+                                                Events
+                                            </a>
+                                        @endcan
+                                        @can('manage event registrations')
+                                            <a href="{{ route('admin.event-registrations.index') }}"
+                                                class="nav-link nav-group-link {{ request()->routeIs('admin.event-registrations.*') ? 'nav-link--active' : '' }}"
+                                                style="padding-left: 1.5rem; font-size: 0.80rem;">
+                                                Event Registrations
+                                            </a>
+                                        @endcan
                                     </div>
                                 </div>
-                                {{-- <a href="{{ route('admin.video-galleries.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.video-galleries.*') ? 'nav-link--active' : '' }}">
-                                    Video Galleries
-                                </a> --}}
-                                {{-- <a href="{{ route('admin.header-logos.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.header-logos.*') ? 'nav-link--active' : '' }}">
-                                    Settings
-                                </a> --}}
-                                {{-- <a href="{{ route('admin.blogs.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.blogs.*') ? 'nav-link--active' : '' }}">
-                                    Blogs
-                                </a>
-                                <a href="{{ route('admin.hero-sections.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.hero-sections.*') ? 'nav-link--active' : '' }}">
-                                    Hero Sections
-                                </a>
-                                <a href="{{ route('admin.abouts.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.abouts.*') ? 'nav-link--active' : '' }}">
-                                    Abouts
-                                </a> --}}
-                                {{-- <a href="{{ route('admin.introductions.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.introductions.*') ? 'nav-link--active' : '' }}">
-                                    Introductions
-                                </a>
-                                <a href="{{ route('admin.woman-empower-cards.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.woman-empower-cards.*') ? 'nav-link--active' : '' }}">
-                                    Woman Empower Members
-                                </a>
-                                <a href="{{ route('admin.missions.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.missions.*') ? 'nav-link--active' : '' }}">
-                                    Missions
-                                </a>
-                                <a href="{{ route('admin.request-submissions.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.request-submissions.*') ? 'nav-link--active' : '' }}">
-                                    Complaints
-                                </a> --}}
-                                <a href="{{ route('admin.member-registrations.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.member-registrations.*') ? 'nav-link--active' : '' }}">
-                                    Member Registrations
-                                </a>
-                                <a href="{{ route('admin.agent-registrations.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.agent-registrations.*') ? 'nav-link--active' : '' }}">
-                                    Agent Registrations
-                                </a>
-                                <a href="{{ route('admin.sub-agent-registrations.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.sub-agent-registrations.*') ? 'nav-link--active' : '' }}">
-                                    Sub Agent Registrations
-                                </a>
-                                <a href="{{ route('admin.contacts.index') }}"
-                                    class="nav-link nav-group-link {{ request()->routeIs('admin.contacts.*') ? 'nav-link--active' : '' }}">
-                                    Contacts
-                                </a>
-                                <!-- Nested Events & Registrations Menu -->
-                                <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
-                                    @php
-                                        $eventRoutes = ['admin.events.*', 'admin.event-registrations.*'];
-                                        $isEventActive = false;
-                                        foreach ($eventRoutes as $route) {
-                                            if (request()->routeIs($route)) {
-                                                $isEventActive = true;
-                                                break;
+                                @can('manage vacancies')
+                                    <!-- Nested Career Menu -->
+                                    <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
+                                        @php
+                                            $careerRoutes = ['admin.vacancies.*', 'admin.job-applications.*'];
+                                            $isCareerActive = false;
+                                            foreach ($careerRoutes as $route) {
+                                                if (request()->routeIs($route)) {
+                                                    $isCareerActive = true;
+                                                    break;
+                                                }
                                             }
-                                        }
-                                    @endphp
-                                    <div class="nav-group-header {{ $isEventActive ? 'nav-group-header--active' : '' }}"
-                                        onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
-                                        <span>Events & Registrations</span>
-                                        <span
-                                            class="nav-group-toggle {{ $isEventActive ? 'nav-group-toggle--open' : '' }}">›</span>
+                                        @endphp
+                                        <div class="nav-group-header {{ $isCareerActive ? 'nav-group-header--active' : '' }}"
+                                            onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
+                                            <span>Career</span>
+                                            <span
+                                                class="nav-group-toggle {{ $isCareerActive ? 'nav-group-toggle--open' : '' }}">›</span>
+                                        </div>
+                                        <div class="nav-group-items {{ $isCareerActive ? 'nav-group-items--open' : '' }}">
+                                            @can('manage vacancies')
+                                                <a href="{{ route('admin.vacancies.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.vacancies.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Vacancies
+                                                </a>
+                                            @endcan
+                                            @can('manage job applications')
+                                                <a href="{{ route('admin.job-applications.index') }}"
+                                                    class="nav-link nav-group-link {{ request()->routeIs('admin.job-applications.*') ? 'nav-link--active' : '' }}"
+                                                    style="padding-left: 1.5rem; font-size: 0.8rem;">
+                                                    Job Applications
+                                                </a>
+                                            @endcan
+                                        </div>
                                     </div>
-                                    <div class="nav-group-items {{ $isEventActive ? 'nav-group-items--open' : '' }}">
-                                        <a href="{{ route('admin.events.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.events.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Events
-                                        </a>
-                                        <a href="{{ route('admin.event-registrations.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.event-registrations.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Event Registrations
-                                        </a>
-                                    </div>
-                                </div>
+                                @endcan
+                                @can('manage agent registrations')
+                                    <a href="{{ route('admin.agent-registrations.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.agent-registrations.*') ? 'nav-link--active' : '' }}">
+                                        Agent Registrations
+                                    </a>
+                                @endcan
+                                @can('manage member registrations')
+                                    <a href="{{ route('admin.member-registrations.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.member-registrations.*') ? 'nav-link--active' : '' }}">
+                                        Member Registrations
+                                    </a>
+                                @endcan
+                                @can('manage sub agent registrations')
+                                    <a href="{{ route('admin.sub-agent-registrations.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.sub-agent-registrations.*') ? 'nav-link--active' : '' }}">
+                                        Sub Agent Registrations
+                                    </a>
+                                @endcan
+                                @can('manage contacts')
+                                    <a href="{{ route('admin.contacts.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.contacts.*') ? 'nav-link--active' : '' }}">
+                                        Contacts
+                                    </a>
+                                @endcan
+
                                 {{-- <a href="{{ route('admin.our-details.index') }}"
                                     class="nav-link nav-group-link {{ request()->routeIs('admin.our-details.*') ? 'nav-link--active' : '' }}">
                                     Our Details
                                 </a> --}}
-                                <!-- Nested Career Menu -->
-                                <div class="nav-group" style="padding-left: 0.75rem; margin-top: 0.25rem;">
-                                    @php
-                                        $careerRoutes = ['admin.vacancies.*', 'admin.job-applications.*'];
-                                        $isCareerActive = false;
-                                        foreach ($careerRoutes as $route) {
-                                            if (request()->routeIs($route)) {
-                                                $isCareerActive = true;
-                                                break;
-                                            }
-                                        }
-                                    @endphp
-                                    <div class="nav-group-header {{ $isCareerActive ? 'nav-group-header--active' : '' }}"
-                                        onclick="toggleNavGroup(this)" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;">
-                                        <span>Career</span>
-                                        <span
-                                            class="nav-group-toggle {{ $isCareerActive ? 'nav-group-toggle--open' : '' }}">›</span>
-                                    </div>
-                                    <div class="nav-group-items {{ $isCareerActive ? 'nav-group-items--open' : '' }}">
-                                        <a href="{{ route('admin.vacancies.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.vacancies.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Vacancies
-                                        </a>
-                                        <a href="{{ route('admin.job-applications.index') }}"
-                                            class="nav-link nav-group-link {{ request()->routeIs('admin.job-applications.*') ? 'nav-link--active' : '' }}"
-                                            style="padding-left: 1.5rem; font-size: 0.8rem;">
-                                            Job Applications
-                                        </a>
-                                    </div>
-                                </div>
+
+                                @can('manage subscribers')
+                                    <a href="{{ route('admin.subscribers.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.subscribers.*') ? 'nav-link--active' : '' }}">
+                                        Subscribers
+                                    </a>
+                                @endcan
                             </div>
                         </div>
 

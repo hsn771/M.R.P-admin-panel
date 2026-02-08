@@ -10,10 +10,10 @@
     <div class="card">
         <div style="margin-bottom:1rem;">
             <a href="{{ route('admin.our-missions.index') }}" class="btn btn-outline" style="margin-right:0.5rem;">
-                <i class="fa-solid fa-arrow-left"></i> Back
+                <i class="fa-solid fa-arrow-left"></i>
             </a>
             <a href="{{ route('admin.our-missions.edit', $ourMission) }}" class="btn btn-primary">
-                <i class="fa-solid fa-pen-to-square"></i> Edit
+                <i class="fa-solid fa-pen-to-square"></i>
             </a>
         </div>
 
@@ -38,7 +38,7 @@
                 </div>
 
                 @if($ourMission->points && is_array($ourMission->points) && count($ourMission->points) > 0)
-                    <h3 style="font-size:1.1rem; font-weight:600; margin-bottom:0.5rem;">Points</h3>
+                    {{-- <h3 style="font-size:1.1rem; font-weight:600; margin-bottom:0.5rem;">Points</h3> --}}
                     <ul style="list-style-type: disc; padding-left: 1.5rem; color:#4b5563;">
                         @foreach($ourMission->points as $point)
                             <li style="margin-bottom:0.25rem;">{{ $point }}</li>
@@ -46,10 +46,10 @@
                     </ul>
                 @endif
 
-                <div style="margin-top:2rem; font-size:0.85rem; color:#6b7280;">
+                {{-- <div style="margin-top:2rem; font-size:0.85rem; color:#6b7280;">
                     <div>Created: {{ $ourMission->created_at->format('M d, Y H:i') }}</div>
                     <div>Updated: {{ $ourMission->updated_at->format('M d, Y H:i') }}</div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

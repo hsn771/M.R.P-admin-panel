@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\IntroductionController;
 use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\WomanEmpowerCardController as ApiWomanEmpowerCardController;
 use App\Http\Controllers\Api\OurMissionController;
+use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\SubscriberController;
 use App\Http\Controllers\Api\RequestSubmissionController as ApiRequestSubmissionController;
 use App\Http\Controllers\Api\MemberRegistrationController;
 use App\Http\Controllers\RequestSubmissionController;
@@ -51,6 +53,7 @@ Route::get('/abouts', [AboutController::class, 'index']);
 Route::get('/introductions', [IntroductionController::class, 'index']);
 Route::get('/missions', [MissionController::class, 'index']);
 Route::get('/our-missions', [OurMissionController::class, 'index']);
+Route::get('/homes', [HomeController::class, 'index']);
 Route::post('/send-otp', [RequestSubmissionController::class, 'sendOTP']);
 Route::post('/verify-otp', [RequestSubmissionController::class, 'verifyOTP']);
 Route::post('/member-registration', [MemberRegistrationController::class, 'store']);
@@ -61,6 +64,7 @@ Route::get('/our-details', [\App\Http\Controllers\Api\OurDetailController::class
 Route::get('/vacancies', [\App\Http\Controllers\Api\VacancyController::class, 'index']);
 Route::post('/apply-for-vacancy', [\App\Http\Controllers\Api\JobApplicationController::class, 'store']);
 Route::post('/event-registration', [\App\Http\Controllers\Api\EventRegistrationController::class, 'store']);
+Route::post('/subscribe', [SubscriberController::class, 'store']);
 
 // Protected API routes
 Route::middleware('auth:api')->group(function (): void {

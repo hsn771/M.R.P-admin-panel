@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\OurInitialController as AdminOurInitialController
 use App\Http\Controllers\Admin\OurMilestoneController as AdminOurMilestoneController;
 use App\Http\Controllers\Admin\OurLeadershipController as AdminOurLeadershipController;
 use App\Http\Controllers\Admin\OurMissionController as AdminOurMissionController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -44,102 +46,120 @@ Route::middleware('guest')->group(function (): void {
 });
 
 // Authenticated admin panel routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function (): void {
+Route::middleware(['auth', 'permission:access admin'])->prefix('admin')->name('admin.')->group(function (): void {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // User management
-    Route::resource('users', AdminUserController::class)->except(['show']);
+    Route::middleware('permission:manage users')->resource('users', AdminUserController::class)->except(['show']);
 
     // Role management
-    Route::resource('roles', AdminRoleController::class)->except(['show']);
+    Route::middleware('permission:manage roles')->resource('roles', AdminRoleController::class)->except(['show']);
 
     // Permission management (simple: create & list)
-    Route::resource('permissions', AdminPermissionController::class)->only(['index', 'create', 'store']);
+    Route::middleware('permission:manage permissions')->resource('permissions', AdminPermissionController::class)->only(['index', 'create', 'store']);
 
     // Slider management
-    Route::resource('sliders', AdminSliderController::class)->except(['show']);
+    Route::middleware('permission:manage sliders')->resource('sliders', AdminSliderController::class)->except(['show']);
 
     // Request submissions management
-    Route::resource('request-submissions', AdminRequestSubmissionController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
-    Route::post('/request-submissions/form-image/update', [AdminRequestSubmissionController::class, 'updateFormImage'])->name('request-submissions.update-form-image');
+    Route::middleware('permission:manage request submissions')->group(function() {
+        Route::resource('request-submissions', AdminRequestSubmissionController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+        Route::post('/request-submissions/form-image/update', [AdminRequestSubmissionController::class, 'updateFormImage'])->name('request-submissions.update-form-image');
+    });
 
     // Photo gallery management
-    Route::resource('photo-galleries', AdminPhotoGalleryController::class)->except(['show']);
+    Route::middleware('permission:manage photo galleries')->resource('photo-galleries', AdminPhotoGalleryController::class)->except(['show']);
 
     // Video gallery management
-    Route::resource('video-galleries', AdminVideoGalleryController::class)->except(['show']);
+    Route::middleware('permission:manage video galleries')->resource('video-galleries', AdminVideoGalleryController::class)->except(['show']);
 
     // Settings management (header-logos route for backward compatibility)
-    Route::get('/header-logos', [AdminHeaderLogoController::class, 'index'])->name('header-logos.index');
-    Route::get('/header-logos/edit', [AdminHeaderLogoController::class, 'edit'])->name('header-logos.edit');
-    Route::put('/header-logos', [AdminHeaderLogoController::class, 'update'])->name('header-logos.update');
+    Route::middleware('permission:manage header logos')->group(function() {
+        Route::get('/header-logos', [AdminHeaderLogoController::class, 'index'])->name('header-logos.index');
+        Route::get('/header-logos/edit', [AdminHeaderLogoController::class, 'edit'])->name('header-logos.edit');
+        Route::put('/header-logos', [AdminHeaderLogoController::class, 'update'])->name('header-logos.update');
+    });
 
     // Event management
-    Route::resource('events', AdminEventController::class);
+    Route::middleware('permission:manage events')->resource('events', AdminEventController::class);
 
     // Woman notice management
-    Route::resource('woman-notices', AdminWomanNoticeController::class)->except(['show']);
+    Route::middleware('permission:manage woman notices')->resource('woman-notices', AdminWomanNoticeController::class)->except(['show']);
 
     // Blog management
-    Route::resource('blogs', AdminBlogController::class)->except(['show']);
+    Route::middleware('permission:manage blogs')->resource('blogs', AdminBlogController::class)->except(['show']);
 
     // Hero section management
-    Route::resource('hero-sections', AdminHeroSectionController::class)->except(['show']);
+    Route::middleware('permission:manage hero sections')->resource('hero-sections', AdminHeroSectionController::class)->except(['show']);
 
     // About management
-    Route::resource('abouts', AdminAboutController::class)->except(['show']);
+    Route::middleware('permission:manage abouts')->resource('abouts', AdminAboutController::class)->except(['show']);
 
     // Introduction management
-    Route::resource('introductions', AdminIntroductionController::class)->except(['show']);
+    Route::middleware('permission:manage introductions')->resource('introductions', AdminIntroductionController::class)->except(['show']);
 
     // Woman empower card management
-    Route::resource('woman-empower-cards', AdminWomanEmpowerCardController::class)->only(['index', 'show', 'destroy']);
-    Route::post('/woman-empower-cards/form-image/update', [AdminWomanEmpowerCardController::class, 'updateFormImage'])->name('woman-empower-cards.update-form-image');
+    Route::middleware('permission:manage woman empower cards')->group(function() {
+        Route::resource('woman-empower-cards', AdminWomanEmpowerCardController::class)->only(['index', 'show', 'destroy']);
+        Route::post('/woman-empower-cards/form-image/update', [AdminWomanEmpowerCardController::class, 'updateFormImage'])->name('woman-empower-cards.update-form-image');
+    });
 
     // Mission management
-    Route::resource('missions', AdminMissionController::class)->except(['show']);
+    Route::middleware('permission:manage missions')->resource('missions', AdminMissionController::class)->except(['show']);
 
     // Member Registration management
-    Route::resource('member-registrations', AdminMemberRegistrationController::class);
-    Route::get('member-registrations/file/{filename}', [AdminMemberRegistrationController::class, 'viewFile'])->name('member-registrations.view-file');
+    Route::middleware('permission:manage member registrations')->group(function() {
+        Route::resource('member-registrations', AdminMemberRegistrationController::class);
+        Route::get('member-registrations/file/{filename}', [AdminMemberRegistrationController::class, 'viewFile'])->name('member-registrations.view-file');
+    });
 
     // Agent Registration management
-    Route::resource('agent-registrations', AdminAgentRegistrationController::class);
-    Route::get('agent-registrations/file/{filename}', [AdminAgentRegistrationController::class, 'viewFile'])->name('agent-registrations.view-file');
+    Route::middleware('permission:manage agent registrations')->group(function() {
+        Route::resource('agent-registrations', AdminAgentRegistrationController::class);
+        Route::get('agent-registrations/file/{filename}', [AdminAgentRegistrationController::class, 'viewFile'])->name('agent-registrations.view-file');
+    });
 
     // Sub Agent Registration management
-    Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
-    Route::get('sub-agent-registrations/file/{filename}', [AdminSubAgentRegistrationController::class, 'viewFile'])->name('sub-agent-registrations.view-file');
+    Route::middleware('permission:manage sub agent registrations')->group(function() {
+        Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
+        Route::get('sub-agent-registrations/file/{filename}', [AdminSubAgentRegistrationController::class, 'viewFile'])->name('sub-agent-registrations.view-file');
+    });
 
     // Contact management
-    Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
+    Route::middleware('permission:manage contacts')->resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
 
     // Our Details management
-    Route::resource('our-details', \App\Http\Controllers\Admin\OurDetailController::class);
+    Route::middleware('permission:manage our details')->resource('our-details', \App\Http\Controllers\Admin\OurDetailController::class);
 
     // Vacancy management
-    Route::resource('vacancies', \App\Http\Controllers\Admin\VacancyController::class);
+    Route::middleware('permission:manage vacancies')->resource('vacancies', \App\Http\Controllers\Admin\VacancyController::class);
 
     // Job Applications management
-    Route::resource('job-applications', \App\Http\Controllers\Admin\JobApplicationController::class)->only(['index', 'show', 'destroy']);
+    Route::middleware('permission:manage job applications')->resource('job-applications', \App\Http\Controllers\Admin\JobApplicationController::class)->only(['index', 'show', 'destroy']);
 
     // Event Registration management
-    Route::resource('event-registrations', AdminEventRegistrationController::class)->only(['index', 'show', 'destroy']);
+    Route::middleware('permission:manage event registrations')->resource('event-registrations', AdminEventRegistrationController::class)->only(['index', 'show', 'destroy']);
 
     // News management
-    Route::resource('news', AdminNewsController::class);
+    Route::middleware('permission:manage news')->resource('news', AdminNewsController::class);
 
     // Our Initials management
-    Route::resource('our-initials', AdminOurInitialController::class);
+    Route::middleware('permission:manage our initials')->resource('our-initials', AdminOurInitialController::class);
 
     // Our Milestones management
-    Route::resource('our-milestones', AdminOurMilestoneController::class);
+    Route::middleware('permission:manage our milestones')->resource('our-milestones', AdminOurMilestoneController::class);
 
     // Our Leaderships management
-    Route::resource('our-leaderships', AdminOurLeadershipController::class);
+    Route::middleware('permission:manage our leaderships')->resource('our-leaderships', AdminOurLeadershipController::class);
 
     // Our Missions management
-    Route::resource('our-missions', AdminOurMissionController::class);
+    Route::middleware('permission:manage our missions')->resource('our-missions', AdminOurMissionController::class);
+
+    // Home management
+    Route::middleware('permission:manage homes')->resource('homes', AdminHomeController::class);
+
+    // Subscriber management
+    Route::middleware('permission:manage subscribers')->resource('subscribers', AdminSubscriberController::class)->only(['index', 'destroy']);
 });
 
 // Authenticated user profile

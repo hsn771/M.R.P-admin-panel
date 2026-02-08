@@ -24,7 +24,7 @@ class OurInitialController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ]);
@@ -61,7 +61,7 @@ class OurInitialController extends Controller
     public function update(Request $request, OurInitial $ourInitial): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ]);

@@ -30,7 +30,7 @@ class EventController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif', 'max:5000'],
+            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif'],
             'type_name' => ['nullable', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -40,7 +40,7 @@ class EventController extends Controller
             'reasons' => ['nullable', 'array'],
             'schedule_time' => ['nullable', 'array'],
             'schedule_subject' => ['nullable', 'array'],
-            'gallery_images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif', 'max:5000'],
+            'gallery_images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -89,7 +89,7 @@ class EventController extends Controller
     public function update(Request $request, Event $event): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif', 'max:5000'],
+            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif'],
             'type_name' => ['nullable', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -99,7 +99,7 @@ class EventController extends Controller
             'reasons' => ['nullable', 'array'],
             'schedule_time' => ['nullable', 'array'],
             'schedule_subject' => ['nullable', 'array'],
-            'gallery_images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif', 'max:5000'],
+            'gallery_images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg,avif'],
             'remove_gallery_images' => ['nullable', 'array'],
         ]);
 

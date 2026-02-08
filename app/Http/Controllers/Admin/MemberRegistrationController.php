@@ -33,7 +33,7 @@ class MemberRegistrationController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'family_member_num' => 'required|integer',
@@ -56,7 +56,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
-            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf',
         ]);
 
         if ($request->hasFile('image')) {
@@ -99,7 +99,7 @@ class MemberRegistrationController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'family_member_num' => 'required|integer',
@@ -122,7 +122,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
-            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:4048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf',
         ]);
 
         if ($request->hasFile('image')) {
