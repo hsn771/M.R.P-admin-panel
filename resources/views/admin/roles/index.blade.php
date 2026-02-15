@@ -50,7 +50,6 @@
                         <td style="padding:0.5rem 0.25rem; text-align:right;">
                             <a href="{{ route('admin.roles.edit', $role) }}" class="btn btn-outline">
                                 <i class="fas fa-edit" style="margin-right: 0.3rem;"></i>
-                                Edit
                             </a>
                         </td>
                     </tr>
