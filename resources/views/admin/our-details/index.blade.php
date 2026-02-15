@@ -29,6 +29,7 @@
                     <th style="padding:0.5rem 0.25rem;">Phone</th>
                     <th style="padding:0.5rem 0.25rem;">Email</th>
                     <th style="padding:0.5rem 0.25rem;">Links</th>
+                    <th style="padding:0.5rem 0.25rem;">Map URL</th>
                     <th style="padding:0.5rem 0.25rem; text-align:right;">Actions</th>
                 </tr>
             </thead>
@@ -47,6 +48,15 @@
                             style="margin-right: 5px; color: #E1306C;"><i class="fa-brands fa-instagram"></i></a> @endif
                             @if($detail->linkedin_link) <a href="{{ $detail->linkedin_link }}" target="_blank"
                             style="color: #0077B5;"><i class="fa-brands fa-linkedin"></i></a> @endif
+                        </td>
+                        <td style="padding:0.5rem 0.25rem;">
+                            @if($detail->map_url)
+                                <a href="{{ $detail->map_url }}" target="_blank" style="color: #ea4335; font-size: 1.2rem;">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </a>
+                            @else
+                                <span class="muted">—</span>
+                            @endif
                         </td>
                         <td style="padding:0.5rem 0.25rem; text-align:right;">
                             <div style="display:flex; gap:0.5rem; justify-content:flex-end;">

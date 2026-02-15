@@ -43,7 +43,8 @@
                 <label style="display:block; font-weight:600; color: #4b5563; font-size: 0.85rem; margin-bottom:0.25rem;">Footer
                     Description</label>
                 <p style="color: #111827; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">
-                    {{ $ourDetail->footer_description }}</p>
+                    {{ $ourDetail->footer_description }}
+                </p>
             </div>
         @endif
 
@@ -118,6 +119,20 @@
                     <a href="{{ $ourDetail->linkedin_link }}" target="_blank"
                         style="color: #2563eb; text-decoration: none; font-size: 0.95rem;">
                         <i class="fab fa-linkedin" style="margin-right: 0.25rem;"></i> {{ $ourDetail->linkedin_link }}
+                    </a>
+                @else
+                    <p style="color: #9ca3af; font-size: 0.95rem; font-style: italic;">Not provided</p>
+                @endif
+            </div>
+
+            <div style="grid-column: span 2;">
+                <label
+                    style="display:block; font-weight:600; color: #4b5563; font-size: 0.85rem; margin-bottom:0.25rem;">Google
+                    Map URL</label>
+                @if($ourDetail->map_url)
+                    <a href="{{ $ourDetail->map_url }}" target="_blank"
+                        style="color: #ea4335; text-decoration: none; font-size: 0.95rem; word-break: break-all;">
+                        <i class="fas fa-location-dot" style="margin-right: 0.25rem;"></i> {{ $ourDetail->map_url }}
                     </a>
                 @else
                     <p style="color: #9ca3af; font-size: 0.95rem; font-style: italic;">Not provided</p>

@@ -39,6 +39,7 @@ class OurDetailController extends Controller
             'twitter_link' => 'nullable|url',
             'insta_link' => 'nullable|url',
             'linkedin_link' => 'nullable|url',
+            'map_url' => 'nullable|string',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -76,6 +77,7 @@ class OurDetailController extends Controller
             'twitter_link' => 'nullable|url',
             'insta_link' => 'nullable|url',
             'linkedin_link' => 'nullable|url',
+            'map_url' => 'nullable|string',
         ]);
 
         if ($request->hasFile('logo')) {

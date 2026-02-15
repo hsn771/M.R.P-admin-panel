@@ -17,5 +17,6 @@ class OurDetail extends Model
         'twitter_link',
         'insta_link',
         'linkedin_link',
+        'map_url',
     ];
 }

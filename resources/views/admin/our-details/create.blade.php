@@ -92,6 +92,17 @@
                 @error('linkedin_link') <div style="color:red; font-size:0.875rem;">{{ $message }}</div> @enderror
             </div>
 
+            <div style="margin-bottom: 1rem;">
+                <label for="map_url" style="display:block; font-weight:500; margin-bottom:0.5rem;">Google Map URL / Embed
+                    Link</label>
+                <textarea name="map_url" id="map_url" rows="3"
+                    style="width:100%; padding:0.45rem 0.6rem; border-radius:0.4rem; border:1px solid #d1d5db;"
+                    placeholder="Paste Google Maps URL or Embed Src logic here">{{ old('map_url') }}</textarea>
+                <small style="color: #6b7280;">This URL will be used to show your office location on the contact
+                    page.</small>
+                @error('map_url') <div style="color:red; font-size:0.875rem;">{{ $message }}</div> @enderror
+            </div>
+
             <div style="text-align: right;">
                 <a href="{{ route('admin.our-details.index') }}" class="btn btn-outline"
                     style="margin-right:0.5rem;">Cancel</a>
