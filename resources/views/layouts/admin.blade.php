@@ -30,6 +30,27 @@
             padding: 1.5rem 1rem;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            max-height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
         }
 
         .brand {
@@ -184,6 +205,106 @@
             }
         }
 
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: -240px;
+                top: 0;
+                bottom: 0;
+                z-index: 1010;
+                transition: left 0.3s ease;
+                box-shadow: 10px 0 15px -3px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar--open {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1005;
+                backdrop-filter: blur(2px);
+            }
+
+            .sidebar-overlay--open {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 1rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .topbar-user {
+                font-size: 0.8rem;
+            }
+
+            .topbar-user .user-name {
+                display: none;
+            }
+
+            .topbar-user .logout-text {
+                display: none;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+                /* Prevent iOS zoom */
+            }
+
+            .topbar h1 {
+                font-size: 1rem !important;
+                max-width: 180px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: #374151;
+            cursor: pointer;
+            margin-right: 0.75rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+        }
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -252,6 +373,7 @@
 
 <body>
     <div class="layout">
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
         <aside class="sidebar">
             <div class="brand">
                 Admin Panel
@@ -519,7 +641,10 @@
 
         <div class="main">
             <header class="topbar">
-                <div>
+                <div style="display: flex; align-items: center;">
+                    <button class="hamburger" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     @yield('header')
                 </div>
                 <div class="topbar-user">
@@ -541,6 +666,13 @@
         </div>
     </div>
     <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('sidebar--open');
+            overlay.classList.toggle('sidebar-overlay--open');
+        }
+
         function toggleNavGroup(header) {
             const items = header.nextElementSibling;
             const toggle = header.querySelector('.nav-group-toggle');
@@ -554,6 +686,18 @@
                 toggle.classList.add('nav-group-toggle--open');
             }
         }
+
+        // Auto-wrap tables for responsiveness
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.content table').forEach(table => {
+                if (!table.parentElement.classList.contains('table-responsive')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'table-responsive';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+            });
+        });
     </script>
 </body>
 
