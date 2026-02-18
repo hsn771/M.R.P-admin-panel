@@ -72,7 +72,7 @@ class OurMissionController extends Controller
     public function update(Request $request, OurMission $ourMission): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg'],
+            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'points' => ['nullable', 'array'],

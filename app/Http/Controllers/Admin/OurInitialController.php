@@ -61,7 +61,7 @@ class OurInitialController extends Controller
     public function update(Request $request, OurInitial $ourInitial): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ]);

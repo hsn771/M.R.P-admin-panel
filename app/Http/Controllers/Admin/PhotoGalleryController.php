@@ -28,7 +28,7 @@ class PhotoGalleryController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'date' => ['required', 'date'],
-            'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
+            'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'images' => ['required', 'array'],
         ]);
     
@@ -67,7 +67,7 @@ class PhotoGalleryController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'date' => ['required', 'date'],
-            'images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
+            'images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'images' => ['nullable', 'array'],
             'remove_images' => ['nullable', 'array'],
         ]);

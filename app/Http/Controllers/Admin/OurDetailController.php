@@ -29,7 +29,7 @@ class OurDetailController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,avif',
             'title' => 'nullable|string|max:255',
             'footer_description' => 'nullable|string',
             'our_address' => 'required|string|max:255',
@@ -67,7 +67,7 @@ class OurDetailController extends Controller
     public function update(Request $request, OurDetail $ourDetail): RedirectResponse
     {
         $data = $request->validate([
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,avif',
             'title' => 'nullable|string|max:255',
             'footer_description' => 'nullable|string',
             'our_address' => 'required|string|max:255',

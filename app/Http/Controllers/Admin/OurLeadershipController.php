@@ -24,7 +24,7 @@ class OurLeadershipController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'name' => ['required', 'string', 'max:255'],
             'post' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
@@ -62,7 +62,7 @@ class OurLeadershipController extends Controller
     public function update(Request $request, OurLeadership $ourLeadership): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp,svg,avif'],
             'name' => ['required', 'string', 'max:255'],
             'post' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
