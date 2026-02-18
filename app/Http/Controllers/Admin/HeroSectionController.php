@@ -27,7 +27,7 @@ class HeroSectionController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,avif', 'max:2048'],
             'description' => ['required', 'string'],
         ]);
     
@@ -66,7 +66,7 @@ class HeroSectionController extends Controller
 {
     $data = $request->validate([
         'name' => ['required', 'string', 'max:255'],
-        'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,avif', 'max:2048'],
         'description' => ['required', 'string'],
     ]);
 

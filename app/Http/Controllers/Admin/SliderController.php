@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,avif', 'max:2048'],
         ]);
     
         if ($request->hasFile('image')) {
@@ -60,7 +60,7 @@ class SliderController extends Controller
     public function update(Request $request, Slider $slider): RedirectResponse
     {
         $data = $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,webp,svg,avif', 'max:2048'],
         ]);
     
         if ($request->hasFile('image')) {

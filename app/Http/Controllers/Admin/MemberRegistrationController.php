@@ -33,7 +33,7 @@ class MemberRegistrationController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,avif',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,svg,avif',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'family_member_num' => 'required|integer',
@@ -99,7 +99,7 @@ class MemberRegistrationController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg,avif',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,svg,avif',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'family_member_num' => 'required|integer',

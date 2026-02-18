@@ -56,7 +56,7 @@
                 <input id="images" name="images[]" type="file" accept="image/*" multiple
                     style="width:100%; padding:0.45rem 0.6rem; border-radius:0.4rem; border:1px solid #d1d5db;">
                 <div class="muted" style="margin-top:0.25rem; font-size:0.75rem;">
-                    Accepted formats: JPEG, PNG, JPG, GIF, WEBP. Max size: 2MB per image.
+                    Accepted formats: JPEG, PNG, JPG, GIF, WEBP.
                 </div>
                 @error('images')
                     <div style="color:#b91c1c; font-size:0.8rem; margin-top:0.2rem;">{{ $message }}</div>
