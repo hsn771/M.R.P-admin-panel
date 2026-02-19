@@ -20,7 +20,7 @@ class AgentRegistrationController extends Controller
             $query->where('full_name', 'like', '%' . $request->search_name . '%');
         }
 
-        $agentRegistrations = $query->oldest()->get();
+        $agentRegistrations = $query->oldest()->paginate(10);
         return view('admin.agent_registrations.index', compact('agentRegistrations'));
     }
 

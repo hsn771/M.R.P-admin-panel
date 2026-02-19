@@ -20,7 +20,7 @@ class MemberRegistrationController extends Controller
             $query->where('name', 'like', '%' . $request->search_name . '%');
         }
 
-        $memberRegistrations = $query->oldest()->get();
+        $memberRegistrations = $query->oldest()->paginate(10);
         return view('admin.member_registrations.index', compact('memberRegistrations'));
     }
 

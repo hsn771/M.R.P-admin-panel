@@ -367,6 +367,106 @@
         .close-modal:hover {
             color: #111827;
         }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination li {
+            display: inline-block;
+        }
+
+        .pagination li a,
+        .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .pagination li.active span {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+
+        .pagination li.disabled span,
+        .pagination li.disabled a {
+            color: #9ca3af;
+            background: #f9fafb;
+            cursor: not-allowed;
+        }
+
+        .pagination li a:hover:not(.active) {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        .pagination-container nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .pagination-info {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        /* Flex Utilities for Pagination */
+        .d-flex {
+            display: flex !important;
+        }
+
+        .justify-content-between {
+            justify-content: space-between !important;
+        }
+
+        .align-items-center {
+            align-items: center !important;
+        }
+
+        .flex-sm-fill {
+            flex: 1 1 auto !important;
+        }
+
+        .justify-content-sm-between {
+            justify-content: space-between !important;
+        }
+
+        .align-items-sm-center {
+            align-items: center !important;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+
+        @media (min-width: 576px) {
+            .d-sm-flex {
+                display: flex !important;
+            }
+        }
+
+        .pagination p.small {
+            margin-bottom: 0;
+            margin-top: 0.5rem;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>

@@ -20,7 +20,7 @@ class SubAgentRegistrationController extends Controller
             $query->where('full_name', 'like', '%' . $request->search_name . '%');
         }
 
-        $subAgentRegistrations = $query->oldest()->get();
+        $subAgentRegistrations = $query->oldest()->paginate(10);
         return view('admin.sub_agent_registrations.index', compact('subAgentRegistrations'));
     }
 

@@ -45,7 +45,7 @@
         <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
             <thead>
                 <tr style="text-align:left; border-bottom:1px solid #e5e7eb;">
-                    <th style="padding:0.5rem 0.25rem;">ID</th>
+                    <th style="padding:0.5rem 0.25rem;">SL</th>
                     <th style="padding:0.5rem 0.25rem;">Name</th>
                     <th style="padding:0.5rem 0.25rem;">Phone</th>
                     <th style="padding:0.5rem 0.25rem;">NID</th>
@@ -56,7 +56,9 @@
             <tbody>
                 @forelse ($memberRegistrations as $registration)
                     <tr style="border-bottom:1px solid #f3f4f6;">
-                        <td style="padding:0.5rem 0.25rem;">{{ $registration->id }}</td>
+                        <td style="padding:0.5rem 0.25rem;">
+                            {{ ($memberRegistrations->currentPage() - 1) * $memberRegistrations->perPage() + $loop->iteration }}
+                        </td>
                         <td style="padding:0.5rem 0.25rem;">{{ $registration->name }}</td>
                         <td style="padding:0.5rem 0.25rem;">{{ $registration->phone }}</td>
                         <td style="padding:0.5rem 0.25rem;">{{ $registration->nid_no }}</td>
@@ -103,6 +105,9 @@
             </tbody>
         </table>
 
+        <div style="margin-top:1rem;">
+            {{ $memberRegistrations->appends(request()->query())->links() }}
+        </div>
     </div>
 
     <!-- Print Modal -->
