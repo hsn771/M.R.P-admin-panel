@@ -16,7 +16,7 @@ class MemberRegistrationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,gif,webp,svg,avif',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'family_member_num' => 'required|integer',
@@ -39,7 +39,7 @@ class MemberRegistrationController extends Controller
             'post_code_present' => 'required|string|max:255',
             'sponsor_name' => 'required|string|max:255',
             'sponsor_phone' => 'required|string|max:255',
-            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:8048',
+            'digital_sign' => 'nullable|file|mimes:jpeg,png,jpg,pdf,webp,svg,avif',
         ]);
 
         if ($validator->fails()) {
