@@ -14,6 +14,7 @@ class MemberRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,gif,webp,svg,avif',
