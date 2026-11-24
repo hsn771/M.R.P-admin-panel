@@ -59,6 +59,7 @@ Route::post('/verify-otp', [RequestSubmissionController::class, 'verifyOTP']);
 Route::post('/member-registration', [MemberRegistrationController::class, 'store']);
 Route::post('/agent-registration', [\App\Http\Controllers\Api\AgentRegistrationController::class, 'store']);
 Route::post('/sub-agent-registration', [\App\Http\Controllers\Api\SubAgentRegistrationController::class, 'store']);
+Route::post('/share-investment', [\App\Http\Controllers\Api\ShareInvestmentController::class, 'store']);
 Route::post('/contact', [\App\Http\Controllers\Api\ContactController::class, 'store']);
 Route::get('/our-details', [\App\Http\Controllers\Api\OurDetailController::class, 'index']);
 Route::get('/vacancies', [\App\Http\Controllers\Api\VacancyController::class, 'index']);

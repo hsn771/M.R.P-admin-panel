@@ -24,6 +24,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage member registrations',
             'manage agent registrations',
             'manage sub agent registrations',
+            'manage share investments',
             'manage contacts',
             'manage our details',
             'manage vacancies',

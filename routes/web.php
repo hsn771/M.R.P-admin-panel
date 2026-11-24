@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\OurLeadershipController as AdminOurLeadershipCont
 use App\Http\Controllers\Admin\OurMissionController as AdminOurMissionController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
+use App\Http\Controllers\Admin\ShareInvestmentController as AdminShareInvestmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -123,6 +124,12 @@ Route::middleware(['auth', 'permission:access admin'])->prefix('admin')->name('a
     Route::middleware('permission:manage sub agent registrations')->group(function() {
         Route::resource('sub-agent-registrations', AdminSubAgentRegistrationController::class);
         Route::get('sub-agent-registrations/file/{filename}', [AdminSubAgentRegistrationController::class, 'viewFile'])->name('sub-agent-registrations.view-file');
+    });
+
+    // Share Investment management
+    Route::middleware('permission:manage share investments')->group(function() {
+        Route::resource('share-investments', AdminShareInvestmentController::class)->only(['index', 'show', 'destroy']);
+        Route::get('share-investments/file/{filename}', [AdminShareInvestmentController::class, 'viewFile'])->name('share-investments.view-file');
     });
 
     // Contact management

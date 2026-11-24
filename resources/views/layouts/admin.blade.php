@@ -520,6 +520,7 @@
                                     'admin.member-registrations.*',
                                     'admin.agent-registrations.*',
                                     'admin.sub-agent-registrations.*',
+                                    'admin.share-investments.*',
                                     'admin.contacts.*',
                                     'admin.our-details.*',
                                     'admin.vacancies.*',
@@ -707,6 +708,12 @@
                                     <a href="{{ route('admin.sub-agent-registrations.index') }}"
                                         class="nav-link nav-group-link {{ request()->routeIs('admin.sub-agent-registrations.*') ? 'nav-link--active' : '' }}">
                                         Sub Agent Registrations
+                                    </a>
+                                @endcan
+                                @can('manage share investments')
+                                    <a href="{{ route('admin.share-investments.index') }}"
+                                        class="nav-link nav-group-link {{ request()->routeIs('admin.share-investments.*') ? 'nav-link--active' : '' }}">
+                                        Share Investments
                                     </a>
                                 @endcan
                                 @can('manage contacts')
